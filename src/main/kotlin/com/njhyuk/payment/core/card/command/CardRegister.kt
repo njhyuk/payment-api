@@ -9,10 +9,9 @@ import java.time.LocalDateTime
 class CardRegister(
     private val cardRepository: CardRepository
 ) {
-    fun register(command: CardRegisterCommand) {
-        cardRepository.save(
+    fun register(command: CardRegisterCommand): CardRegisterResponse {
+        val card = cardRepository.save(
             Card(
-                id = null,
                 userId = command.userId,
                 billingKey = "",
                 maskedCardNo = command.cardNo,
@@ -21,5 +20,7 @@ class CardRegister(
                 updatedAt = LocalDateTime.now()
             )
         )
+
+        return CardRegisterResponse(card.id!!)
     }
 }

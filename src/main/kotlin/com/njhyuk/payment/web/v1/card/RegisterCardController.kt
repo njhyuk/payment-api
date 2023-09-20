@@ -15,8 +15,8 @@ class RegisterCardController(
     fun register(
         @RequestHeader(name = "user-id") userId: String,
         @RequestBody request: RegisterCardRequest
-    ) {
-        cardRegister.register(
+    ): RegisterCardResponse {
+        val card = cardRegister.register(
             CardRegisterCommand(
                 userId = userId,
                 cardNo = request.cardNo,
@@ -25,5 +25,7 @@ class RegisterCardController(
                 birth = request.birth
             )
         )
+
+        return RegisterCardResponse(card.cardId)
     }
 }

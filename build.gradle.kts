@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "2.7.16-SNAPSHOT"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
+    id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
@@ -22,6 +23,8 @@ repositories {
     maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
+val asciidoctorExtensions: Configuration by configurations.creating
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -31,7 +34,42 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
     testImplementation("io.kotest:kotest-assertions-core:5.5.5")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+
+    /**
+     * restDocs
+     */
+    asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+}
+
+val snippetsDir by extra { file("$buildDir/generated-snippets") }
+
+tasks {
+    test {
+        outputs.dir(snippetsDir)
+        finalizedBy(asciidoctor)
+    }
+
+    asciidoctor {
+        dependsOn(test)
+        configurations(asciidoctorExtensions.name)
+        inputs.dir(snippetsDir)
+
+        sources {
+            include("**/index.adoc")
+        }
+
+        baseDirFollowsSourceFile()
+    }
+
+    bootJar {
+        dependsOn(asciidoctor)
+        from("${asciidoctor.get().outputDir}") {
+            into("static/docs")
+        }
+    }
 }
 
 tasks.withType<KotlinCompile> {

@@ -17,7 +17,6 @@ data class Card(
     val billingKey: String,
     val cardIssuerId: String,
     val cardName: String,
-    val pgId: String,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime
 )

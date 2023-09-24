@@ -1,5 +1,8 @@
 package com.njhyuk.payment.external.portone
 
+import com.njhyuk.payment.external.portone.dto.BillingKeyRequest
+import com.njhyuk.payment.external.portone.dto.GetTokenRequest
+import com.njhyuk.payment.external.portone.dto.PaymentRequest
 import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.comparables.shouldBeGreaterThan
@@ -83,7 +86,7 @@ class PortOneApiClientTest(
                     authorization = token.response.accessToken,
                     request = PaymentRequest(
                         customerUid = data.response.customerUid,
-                        merchantUid = "store-1b1e58c0-d842-4c6d-89be-839ff1924d48",
+                        merchantUid = portOneConfig.storeId,
                         amount = 100,
                         name = "아이폰 15 프로"
                     )

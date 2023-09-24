@@ -1,4 +1,4 @@
-package com.njhyuk.payment.external.portone
+package com.njhyuk.payment.external.portone.dto
 
 data class PortOneApiResponse<T>(
     val code: Int,

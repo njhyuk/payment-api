@@ -1,4 +1,4 @@
-package com.njhyuk.payment.external.portone
+package com.njhyuk.payment.external.portone.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

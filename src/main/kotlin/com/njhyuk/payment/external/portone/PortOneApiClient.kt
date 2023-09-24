@@ -1,5 +1,12 @@
 package com.njhyuk.payment.external.portone
 
+import com.njhyuk.payment.external.portone.dto.BillingKeyRequest
+import com.njhyuk.payment.external.portone.dto.BillingKeyResponse
+import com.njhyuk.payment.external.portone.dto.GetTokenRequest
+import com.njhyuk.payment.external.portone.dto.GetTokenResponse
+import com.njhyuk.payment.external.portone.dto.PaymentRequest
+import com.njhyuk.payment.external.portone.dto.PaymentResponse
+import com.njhyuk.payment.external.portone.dto.PortOneApiResponse
 import mu.KotlinLogging
 import org.springframework.cloud.openfeign.FallbackFactory
 import org.springframework.cloud.openfeign.FeignClient

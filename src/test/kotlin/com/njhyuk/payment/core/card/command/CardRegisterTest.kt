@@ -1,41 +1,26 @@
 package com.njhyuk.payment.core.card.command
 
-import com.njhyuk.payment.core.card.domain.Card
-import com.njhyuk.payment.core.card.domain.CardRepository
+import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import org.mockito.kotlin.any
-import org.mockito.kotlin.given
-import org.mockito.kotlin.mock
-import java.time.LocalDateTime
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
-class CardRegisterTest : DescribeSpec({
+@Ignored("실제 카드정보가 필요하여 실패하는 테스트")
+@SpringBootTest
+@ActiveProfiles("local", "test")
+class CardRegisterTest(
+    register: CardRegister
+) : DescribeSpec({
     describe("register 메서드는") {
         it("카드를 등록한다") {
-            val repository: CardRepository = mock()
-            val register = CardRegister(repository)
-
-            val card = Card(
-                id = 1L,
-                userId = "",
-                billingKey = "",
-                cardIssuerId = "",
-                cardName = "",
-                createdAt = LocalDateTime.now(),
-                updatedAt = LocalDateTime.now(),
-                pgId = ""
-            )
-
-            given(repository.save(any<Card>()))
-                .willReturn(card)
-
             val response = register.register(
                 CardRegisterCommand(
-                    userId = "",
-                    cardNo = "",
-                    expiry = "",
-                    password = "",
-                    birth = ""
+                    userId = "010-0000-0000",
+                    cardNo = "0000-0000-0000-0000",
+                    expiry = "2099-01",
+                    birth = "800101",
+                    password = "00"
                 )
             )
 

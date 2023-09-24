@@ -1,6 +1,7 @@
-package com.njhyuk.payment.web.v1.card
+package com.njhyuk.payment.web.v1.payment
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.njhyuk.payment.core.payment.command.SinglePaymentCommand
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
 import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.DescribeSpec
@@ -9,15 +10,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
-import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
-import org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
-import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import org.springframework.restdocs.headers.HeaderDocumentation
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @Ignored("실제 카드정보가 필요하여 실패하는 테스트")
 @SpringBootTest
@@ -25,34 +24,34 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @Import(RestDocsConfiguration::class)
-class RegisterCardControllerTest(
+class SinglePaymentControllerTest(
     private val objectMapper: ObjectMapper,
     private val mockMvc: MockMvc
 ) : DescribeSpec({
-    describe("카드 등록 API") {
-        context("카드 등록 데이터가 정상이라면") {
+    describe("단건 결제 API") {
+        context("단건 결제 데이터가 정상이라면") {
             it("200 OK. 카드를 등록한다.") {
-                val requestBody = RegisterCardRequest(
-                    cardNo = "0000-0000-0000-000",
-                    expiry = "2027-10",
-                    password = "0000",
-                    birth = "0101"
+                val requestBody = SinglePaymentCommand(
+                    cardId = 1,
+                    userId = "010-1234-5678",
+                    amount = 100,
+                    reason = "반바지"
                 )
 
                 mockMvc.perform(
-                    post("/v1/card")
+                    RestDocumentationRequestBuilders.post("/v1/payment")
                         .header("user-id", "010-1234-5678")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestBody))
-                ).andExpect(status().isOk)
+                ).andExpect(MockMvcResultMatchers.status().isOk)
                     .andDo(
-                        document(
-                            "v1/card_register",
-                            requestHeaders(
-                                headerWithName("user-id").description("유저 식별자")
+                        MockMvcRestDocumentation.document(
+                            "v1/payment_register",
+                            HeaderDocumentation.requestHeaders(
+                                HeaderDocumentation.headerWithName("user-id").description("유저 식별자")
                             ),
-                            responseFields(
-                                fieldWithPath("cardId").description("카드 ID")
+                            PayloadDocumentation.responseFields(
+                                PayloadDocumentation.fieldWithPath("paymentId").description("결제 ID")
                             )
                         )
                     )

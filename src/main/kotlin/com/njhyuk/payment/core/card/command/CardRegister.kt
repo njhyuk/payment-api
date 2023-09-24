@@ -2,10 +2,10 @@ package com.njhyuk.payment.core.card.command
 
 import com.njhyuk.payment.core.card.domain.Card
 import com.njhyuk.payment.core.card.domain.CardRepository
-import com.njhyuk.payment.external.portone.dto.GetTokenRequest
 import com.njhyuk.payment.external.portone.PortOneApiClient
 import com.njhyuk.payment.external.portone.PortOneConfig
 import com.njhyuk.payment.external.portone.dto.BillingKeyRequest
+import com.njhyuk.payment.external.portone.dto.GetTokenRequest
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -44,7 +44,7 @@ class CardRegister(
                 cardIssuerId = command.cardNo,
                 cardName = billingKey.response.cardName,
                 createdAt = LocalDateTime.now(),
-                updatedAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
             )
         )
 

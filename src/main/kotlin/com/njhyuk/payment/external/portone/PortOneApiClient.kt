@@ -28,6 +28,12 @@ interface PortOneApiClient {
         @RequestBody request: BillingKeyRequest
     ): PortOneApiResponse<BillingKeyResponse>
 
+    @PostMapping("/subscribe/payments/again")
+    fun payment(
+        @RequestHeader(value = "Authorization") authorization: String,
+        @RequestBody request: PaymentRequest
+    ): PortOneApiResponse<PaymentResponse>
+
     @Component
     class ClientFallbackFactory : FallbackFactory<PortOneApiClient> {
         override fun create(cause: Throwable): PortOneApiClient {
@@ -47,6 +53,14 @@ interface PortOneApiClient {
             request: BillingKeyRequest
         ): PortOneApiResponse<BillingKeyResponse> {
             logger.error(cause) { "빌링키 발급 실패 :: ${cause.localizedMessage}" }
+            throw cause
+        }
+
+        override fun payment(
+            authorization: String,
+            request: PaymentRequest
+        ): PortOneApiResponse<PaymentResponse> {
+            logger.error(cause) { "빌링키 결제 실패 :: ${cause.localizedMessage}" }
             throw cause
         }
     }

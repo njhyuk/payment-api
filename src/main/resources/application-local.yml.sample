@@ -1,0 +1,3 @@
+portone:
+    imp-key: ${PORTONE_REST_API_KEY}
+    imp-secret: ${PORTONE_SECRET_KEY}

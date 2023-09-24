@@ -1,14 +1,14 @@
 package com.njhyuk.payment.external.portone
 
 import com.njhyuk.payment.external.portone.PortOneApiClient.GetTokenRequest
-import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
-@Ignored
 @SpringBootTest
+@ActiveProfiles("local", "test")
 @EnableConfigurationProperties(PortOneConfig::class)
 class PortOneApiClientTest(
     private val portOneApiClient: PortOneApiClient,

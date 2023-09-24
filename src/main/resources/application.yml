@@ -14,4 +14,19 @@ spring:
         driverClassName: org.h2.Driver
         username: sa
         generate-unique-name: false
+    cloud:
+        config:
+            enabled: false
+        discovery:
+            client:
+                simple:
+                    instances:
+                        portone:
+                            -   serviceId: portone
+                                instanceId: portone1
+                                uri: https://api.iamport.kr
+
+portone:
+    imp-key: # 포트원 Rest API Key
+    imp-secret: # 포트원 Secret Key
 

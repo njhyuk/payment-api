@@ -14,10 +14,11 @@ class CardRegister(
             Card(
                 userId = command.userId,
                 billingKey = "",
-                maskedCardNo = command.cardNo,
+                cardIssuerId = command.cardNo,
                 cardName = "",
                 createdAt = LocalDateTime.now(),
-                updatedAt = LocalDateTime.now()
+                updatedAt = LocalDateTime.now(),
+                pgId = ""
             )
         )
 

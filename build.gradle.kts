@@ -13,6 +13,8 @@ plugins {
 group = "com.njhyuk"
 version = "0.0.1-SNAPSHOT"
 
+extra["springCloudVersion"] = "2021.0.2"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
@@ -38,10 +40,35 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
 
     /**
+     * for logging
+     */
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+
+    /**
      * restDocs
      */
     asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+
+    /**
+     * for openfeign
+     */
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+    implementation("io.github.openfeign:feign-okhttp")
+
+    /**
+     * for circuit breaker & resilience4j
+     */
+    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
+    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
+    implementation("org.springframework.cloud:spring-cloud-circuitbreaker-spring-retry")
+    implementation("io.github.resilience4j:resilience4j-spring-boot2")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 val snippetsDir by extra { file("$buildDir/generated-snippets") }

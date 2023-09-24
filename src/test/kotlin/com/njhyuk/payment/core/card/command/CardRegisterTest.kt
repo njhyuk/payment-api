@@ -19,10 +19,11 @@ class CardRegisterTest : DescribeSpec({
                 id = 1L,
                 userId = "",
                 billingKey = "",
-                maskedCardNo = "",
+                cardIssuerId = "",
                 cardName = "",
                 createdAt = LocalDateTime.now(),
-                updatedAt = LocalDateTime.now()
+                updatedAt = LocalDateTime.now(),
+                pgId = ""
             )
 
             given(repository.save(any<Card>()))

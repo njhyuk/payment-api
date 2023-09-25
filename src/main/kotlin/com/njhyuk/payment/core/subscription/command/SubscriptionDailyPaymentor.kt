@@ -3,7 +3,7 @@ package com.njhyuk.payment.core.subscription.command
 import com.njhyuk.payment.core.card.domain.CardRepository
 import com.njhyuk.payment.core.payment.command.SinglePaymentCommand
 import com.njhyuk.payment.core.payment.command.SinglePaymentor
-import com.njhyuk.payment.core.payment.exception.NotFoundException
+import com.njhyuk.payment.core.subscription.exception.NotFoundException
 import com.njhyuk.payment.core.subscription.domain.SubscriptionRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate

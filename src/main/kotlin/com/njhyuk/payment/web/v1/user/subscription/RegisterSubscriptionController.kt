@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class SubscriptionRegisterController(
+class RegisterSubscriptionController(
     private val subscriptionRegister: SubscriptionRegister
 ) {
     @PostMapping("/user/v1/subscription")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
         @RequestBody request: SubscriptionRegisterCommand
-    ): SubscriptionRegisterResponse {
+    ): RegisterSubscriptionResponse {
         val subscription = subscriptionRegister.register(request)
 
-        return SubscriptionRegisterResponse(subscription.subscriptionId)
+        return RegisterSubscriptionResponse(subscription.subscriptionId)
     }
 }

@@ -3,7 +3,7 @@ package com.njhyuk.payment.core.payment.command
 import com.njhyuk.payment.core.card.domain.CardRepository
 import com.njhyuk.payment.core.payment.domain.Payment
 import com.njhyuk.payment.core.payment.domain.PaymentRepository
-import com.njhyuk.payment.core.payment.exception.NotFoundException
+import com.njhyuk.payment.core.subscription.exception.NotFoundException
 import com.njhyuk.payment.external.portone.PortOneApiClient
 import com.njhyuk.payment.external.portone.PortOneConfig
 import com.njhyuk.payment.external.portone.dto.GetTokenRequest

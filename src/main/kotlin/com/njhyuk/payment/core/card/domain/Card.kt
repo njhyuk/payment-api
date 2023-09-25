@@ -16,7 +16,11 @@ data class Card(
     val userId: String,
     val billingKey: String,
     val cardIssuerId: String,
-    val cardName: String,
+    var cardName: String,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime
-)
+) {
+    fun edit(cardName: String) {
+        this.cardName = cardName
+    }
+}

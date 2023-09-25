@@ -1,4 +1,4 @@
-package com.njhyuk.payment.web.v1.payment
+package com.njhyuk.payment.web.v1.user.payment
 
 import com.njhyuk.payment.core.payment.command.SinglePaymentCommand
 import com.njhyuk.payment.core.payment.command.SinglePaymentor
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 class SinglePaymentController(
     private val singlePaymentor: SinglePaymentor
 ) {
-    @PostMapping("/v1/payment")
+    @PostMapping("/user/v1/payment")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
         @RequestBody request: SinglePaymentCommand

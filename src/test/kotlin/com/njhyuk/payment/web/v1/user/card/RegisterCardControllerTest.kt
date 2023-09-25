@@ -1,4 +1,4 @@
-package com.njhyuk.payment.web.v1.card
+package com.njhyuk.payment.web.v1.user.card
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.njhyuk.payment.restdoc.RestDocsConfiguration

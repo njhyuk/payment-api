@@ -30,7 +30,7 @@ class SinglePaymentor(
             )
         )
 
-        val response = portOneApiClient.payment(
+        portOneApiClient.payment(
             authorization = token.response.accessToken,
             request = PaymentRequest(
                 customerUid = card.billingKey,

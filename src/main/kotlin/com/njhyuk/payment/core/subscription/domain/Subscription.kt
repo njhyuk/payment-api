@@ -12,8 +12,10 @@ import javax.persistence.Table
 data class Subscription(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0L,
-    val startDate: LocalDate,
+    val id: Long? = 0L,
+    val cardId: Long,
+    val userId: String,
+    val amount: Long,
     val paymentDate: LocalDate,
-    val status: SubscriptionStatus
+    val status: SubscriptionStatus = SubscriptionStatus.ACTIVE
 )

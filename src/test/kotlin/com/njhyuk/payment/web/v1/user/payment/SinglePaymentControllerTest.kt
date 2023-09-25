@@ -1,4 +1,4 @@
-package com.njhyuk.payment.web.v1.payment
+package com.njhyuk.payment.web.v1.user.payment
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.njhyuk.payment.core.payment.command.SinglePaymentCommand

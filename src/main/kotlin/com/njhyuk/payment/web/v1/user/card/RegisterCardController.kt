@@ -1,4 +1,4 @@
-package com.njhyuk.payment.web.v1.card
+package com.njhyuk.payment.web.v1.user.card
 
 import com.njhyuk.payment.core.card.command.CardRegister
 import com.njhyuk.payment.core.card.command.CardRegisterCommand
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 class RegisterCardController(
     private val cardRegister: CardRegister
 ) {
-    @PostMapping("/v1/card")
+    @PostMapping("/user/v1/card")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
         @RequestBody request: RegisterCardRequest

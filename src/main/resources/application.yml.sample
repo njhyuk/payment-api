@@ -27,6 +27,6 @@ spring:
                                 uri: https://api.iamport.kr
 
 portone:
-    store-id: PORTONE_STORE_ID
-    imp-key: PORTONE_REST_API_KEY
-    imp-secret: PORTONE_SECRET_KEY
+    store-id: ${PORTONE_STORE_ID}
+    imp-key: ${PORTONE_REST_API_KEY}
+    imp-secret: ${PORTONE_SECRET_KEY}

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class SinglePaymentController(
     private val singlePaymentor: SinglePaymentor
 ) {
-    @PostMapping("/user/v1/payment")
+    @PostMapping("/v1/user/payment")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
         @RequestBody request: Request

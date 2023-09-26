@@ -13,7 +13,7 @@ import java.time.LocalDate
 class RegisterSubscriptionController(
     private val subscriptionRegister: SubscriptionRegister
 ) {
-    @PostMapping("/user/v1/subscription")
+    @PostMapping("/v1/user/subscription")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
         @RequestBody request: Request

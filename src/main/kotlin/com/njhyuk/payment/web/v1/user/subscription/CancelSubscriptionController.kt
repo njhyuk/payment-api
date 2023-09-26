@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 class CancelSubscriptionController(
     private val canceler: SubscriptionCanceler
 ) {
-    @PostMapping("/user/v1/subscription/cancel")
+    @PostMapping("/v1/user/subscription/cancel")
     fun cancel(
         @RequestHeader(name = "user-id") userId: String
     ): WebResponse<Response> {

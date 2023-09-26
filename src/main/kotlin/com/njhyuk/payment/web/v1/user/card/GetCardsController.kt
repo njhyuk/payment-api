@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 class GetCardsController(
     private val getUserCards: GetUserCards
 ) {
-    @GetMapping("/user/v1/card")
+    @GetMapping("/v1/user/card")
     fun getCards(
         @RequestHeader(name = "user-id") userId: String
     ): WebResponse<Response> {

@@ -1,10 +1,12 @@
 package com.njhyuk.payment.web.v1.user.card
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.njhyuk.payment.TesterCardConfig
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
+import com.njhyuk.payment.restdoc.RestDocsUtil.Companion.webResponse
 import com.njhyuk.payment.web.v1.user.card.RegisterCardController.Request
-import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.DescribeSpec
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -20,28 +22,29 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@Ignored("실제 카드정보가 필요하여 실패하는 테스트")
 @SpringBootTest
 @ActiveProfiles("local", "test")
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @Import(RestDocsConfiguration::class)
+@EnableConfigurationProperties(TesterCardConfig::class)
 class RegisterCardControllerTest(
     private val objectMapper: ObjectMapper,
-    private val mockMvc: MockMvc
+    private val mockMvc: MockMvc,
+    private val testerCardConfig: TesterCardConfig
 ) : DescribeSpec({
     describe("카드 등록 API") {
         context("카드 등록 데이터가 정상이라면") {
             it("200 OK. 카드를 등록한다.") {
                 val requestBody = Request(
-                    cardNo = "0000-0000-0000-000",
-                    expiry = "2027-10",
-                    password = "0000",
-                    birth = "0101"
+                    cardNo = testerCardConfig.cardNo,
+                    expiry = testerCardConfig.expiry,
+                    password = testerCardConfig.password,
+                    birth = testerCardConfig.birth
                 )
 
                 mockMvc.perform(
-                    post("/v1/card")
+                    post("/v1/user/card")
                         .header("user-id", "010-1234-5678")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestBody))
@@ -53,6 +56,7 @@ class RegisterCardControllerTest(
                                 headerWithName("user-id").description("유저 식별자")
                             ),
                             responseFields(
+                                *webResponse(),
                                 fieldWithPath("data.cardId").description("카드 ID")
                             )
                         )

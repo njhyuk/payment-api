@@ -13,7 +13,7 @@ class RegisterCardController(
     private val cardRegister: CardRegister,
     private val billingRegister: BillingRegister
 ) {
-    @PostMapping("/user/v1/card")
+    @PostMapping("/v1/user/card")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
         @RequestBody request: Request

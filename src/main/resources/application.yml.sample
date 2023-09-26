@@ -30,3 +30,10 @@ portone:
     store-id: ${PORTONE_STORE_ID}
     imp-key: ${PORTONE_REST_API_KEY}
     imp-secret: ${PORTONE_SECRET_KEY}
+
+tester-card:
+    card-no: ${TESTER_CARD_NO}
+    expiry: ${TESTER_CARD_EXPIRY}
+    password: ${TESTER_CARD_PASSWORD}
+    birth: ${TESTER_CARD_BIRTH}
+

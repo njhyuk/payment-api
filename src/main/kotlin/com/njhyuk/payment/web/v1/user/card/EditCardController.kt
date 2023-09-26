@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 class EditCardController(
     private val cardEditor: CardEditor
 ) {
-    @PutMapping("/user/v1/card/{cardId}")
+    @PutMapping("/v1/user/card/{cardId}")
     fun editCard(
         @RequestHeader(name = "user-id") userId: String,
         @PathVariable cardId: Long,

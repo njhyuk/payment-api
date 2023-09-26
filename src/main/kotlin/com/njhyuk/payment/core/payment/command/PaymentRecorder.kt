@@ -21,7 +21,7 @@ class PaymentRecorder(
                 amount = command.amount,
                 status = PaymentStatus.PAYMENT,
                 productName = command.productName,
-                serviceKey = command.serviceKey,
+                serviceKey = command.serviceKey
             )
         )
 

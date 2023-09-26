@@ -1,10 +1,10 @@
-package com.njhyuk.payment.web.v1.user.card
+package com.njhyuk.payment.inbound.web.v1.user.card
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.njhyuk.payment.TesterCardConfig
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
 import com.njhyuk.payment.restdoc.RestDocsUtil.Companion.webResponse
-import com.njhyuk.payment.web.v1.user.card.RegisterCardController.Request
+import com.njhyuk.payment.inbound.web.v1.user.card.RegisterCardController.Request
 import io.kotest.core.spec.style.DescribeSpec
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs

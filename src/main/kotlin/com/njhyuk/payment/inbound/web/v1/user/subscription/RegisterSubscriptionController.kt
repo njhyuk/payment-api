@@ -1,8 +1,8 @@
-package com.njhyuk.payment.web.v1.user.subscription
+package com.njhyuk.payment.inbound.web.v1.user.subscription
 
 import com.njhyuk.payment.core.subscription.command.SubscriptionRegister
 import com.njhyuk.payment.core.subscription.command.SubscriptionRegister.Command
-import com.njhyuk.payment.web.WebResponse
+import com.njhyuk.payment.inbound.web.WebResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader

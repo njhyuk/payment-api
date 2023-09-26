@@ -1,8 +1,8 @@
-package com.njhyuk.payment.web.v1.user.card
+package com.njhyuk.payment.inbound.web.v1.user.card
 
 import com.njhyuk.payment.core.card.domain.Card
 import com.njhyuk.payment.core.card.query.GetUserCards
-import com.njhyuk.payment.web.WebResponse
+import com.njhyuk.payment.inbound.web.WebResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController

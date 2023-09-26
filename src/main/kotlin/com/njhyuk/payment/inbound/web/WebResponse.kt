@@ -1,4 +1,4 @@
-package com.njhyuk.payment.web
+package com.njhyuk.payment.inbound.web
 
 import com.njhyuk.payment.config.handler.ErrorCode
 

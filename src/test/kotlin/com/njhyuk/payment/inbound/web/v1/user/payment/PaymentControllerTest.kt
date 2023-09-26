@@ -1,9 +1,10 @@
-package com.njhyuk.payment.web.v1.user.payment
+package com.njhyuk.payment.inbound.web.v1.user.payment
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.njhyuk.payment.TesterCardConfig
 import com.njhyuk.payment.core.card.command.BillingRegister
 import com.njhyuk.payment.core.card.command.CardRegister
+import com.njhyuk.payment.inbound.web.v1.user.payment.PaymentController
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
 import com.njhyuk.payment.restdoc.RestDocsUtil
 import io.kotest.core.spec.style.DescribeSpec

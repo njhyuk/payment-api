@@ -3,7 +3,7 @@ package com.njhyuk.payment.config.handler
 import com.njhyuk.payment.core.payment.exception.CardNotFoundException
 import com.njhyuk.payment.core.subscription.exception.SubscriptionNotFoundException
 import com.njhyuk.payment.exception.BusinessException
-import com.njhyuk.payment.web.WebResponse
+import com.njhyuk.payment.inbound.web.WebResponse
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler

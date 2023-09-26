@@ -15,7 +15,7 @@ data class SubscriptionPayment(
     val id: Long? = 0L,
     val subscriptionId: Long,
     val paymentDate: LocalDate,
-    var status: Status = Status.PENDING,
+    var status: Status = Status.PENDING
 ) {
     enum class Status {
         PENDING,

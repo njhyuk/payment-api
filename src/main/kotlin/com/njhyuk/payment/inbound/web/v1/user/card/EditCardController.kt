@@ -1,8 +1,8 @@
-package com.njhyuk.payment.web.v1.user.card
+package com.njhyuk.payment.inbound.web.v1.user.card
 
 import com.njhyuk.payment.core.card.command.CardEditor
 import com.njhyuk.payment.core.card.command.CardEditor.Command
-import com.njhyuk.payment.web.WebResponse
+import com.njhyuk.payment.inbound.web.WebResponse
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody

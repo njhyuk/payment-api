@@ -1,4 +1,4 @@
-package com.njhyuk.payment.web
+package com.njhyuk.payment.inbound.web
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry

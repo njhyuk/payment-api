@@ -24,7 +24,7 @@ class SubscriptionPaymentor(
         val card = cardRepository.findByIdAndUserId(subscription.cardId, subscription.userId)
             ?: throw SubscriptionNotFoundException()
 
-        val subscriptionPayment = pendingPayment(subscription.id!!, paymentDate)
+        val subscriptionPayment = pending(subscription.id!!, paymentDate)
 
         runCatching {
             paymentCreator.create(
@@ -38,13 +38,13 @@ class SubscriptionPaymentor(
                 )
             )
 
-            successPayment(subscriptionPayment)
+            success(subscriptionPayment)
         }.getOrElse {
-            failPayment(subscriptionPayment)
+            fail(subscriptionPayment)
         }
     }
 
-    private fun pendingPayment(subscriptionId: Long, paymentDate: LocalDate): SubscriptionPayment {
+    private fun pending(subscriptionId: Long, paymentDate: LocalDate): SubscriptionPayment {
         subscriptionPaymentRepository.findBySubscriptionIdAndPaymentDate(
             subscriptionId = subscriptionId,
             paymentDate = paymentDate
@@ -60,7 +60,7 @@ class SubscriptionPaymentor(
         )
     }
 
-    private fun successPayment(subscriptionPayment: SubscriptionPayment) {
+    private fun success(subscriptionPayment: SubscriptionPayment) {
         subscriptionPaymentRepository.save(
             subscriptionPayment.also {
                 it.toSuccess()
@@ -68,7 +68,7 @@ class SubscriptionPaymentor(
         )
     }
 
-    private fun failPayment(subscriptionPayment: SubscriptionPayment) {
+    private fun fail(subscriptionPayment: SubscriptionPayment) {
         subscriptionPaymentRepository.save(
             subscriptionPayment.also {
                 it.toFail()

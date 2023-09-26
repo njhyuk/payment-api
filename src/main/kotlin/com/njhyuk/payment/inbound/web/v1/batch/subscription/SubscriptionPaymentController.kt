@@ -1,4 +1,4 @@
-package com.njhyuk.payment.web.v1.batch.subscription
+package com.njhyuk.payment.inbound.web.v1.batch.subscription
 
 import com.njhyuk.payment.core.subscription.command.SubscriptionDailyPaymentor
 import org.springframework.format.annotation.DateTimeFormat

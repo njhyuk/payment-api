@@ -38,5 +38,4 @@ class RegisterCardController(
         val password: String,
         val birth: String
     )
-
 }

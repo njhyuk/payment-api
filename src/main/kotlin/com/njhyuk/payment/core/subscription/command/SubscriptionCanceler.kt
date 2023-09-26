@@ -1,7 +1,7 @@
 package com.njhyuk.payment.core.subscription.command
 
-import com.njhyuk.payment.core.subscription.exception.NotFoundException
 import com.njhyuk.payment.core.subscription.domain.SubscriptionRepository
+import com.njhyuk.payment.core.subscription.exception.SubscriptionNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -12,7 +12,7 @@ class SubscriptionCanceler(
     @Transactional
     fun cancel(userId: String): Response {
         val subscription = subscriptionRepository.findByUserId(userId)
-            ?: throw NotFoundException()
+            ?: throw SubscriptionNotFoundException()
 
         subscription.cancel()
 

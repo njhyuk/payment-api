@@ -3,7 +3,7 @@ package com.njhyuk.payment.core.payment.command
 import com.njhyuk.payment.core.card.domain.CardRepository
 import com.njhyuk.payment.core.payment.domain.Payment
 import com.njhyuk.payment.core.payment.domain.PaymentRepository
-import com.njhyuk.payment.core.subscription.exception.NotFoundException
+import com.njhyuk.payment.core.subscription.exception.SubscriptionNotFoundException
 import com.njhyuk.payment.external.portone.PortOneApiClient
 import com.njhyuk.payment.external.portone.PortOneConfig
 import com.njhyuk.payment.external.portone.dto.GetTokenRequest
@@ -21,7 +21,7 @@ class SinglePaymentor(
 ) {
     fun payment(command: Command): Response {
         val card = cardRepository.findByIdAndUserId(command.cardId, command.userId)
-            ?: throw NotFoundException()
+            ?: throw SubscriptionNotFoundException()
 
         val token = portOneApiClient.getToken(
             GetTokenRequest(
@@ -59,5 +59,4 @@ class SinglePaymentor(
     data class Response(
         val paymentId: Long
     )
-
 }

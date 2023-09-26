@@ -1,7 +1,7 @@
 package com.njhyuk.payment.web.v1.user.payment
 
-import com.njhyuk.payment.core.payment.command.SinglePaymentor.Command
 import com.njhyuk.payment.core.payment.command.SinglePaymentor
+import com.njhyuk.payment.core.payment.command.SinglePaymentor.Command
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
@@ -24,5 +24,4 @@ class SinglePaymentController(
     data class Response(
         val paymentId: Long
     )
-
 }

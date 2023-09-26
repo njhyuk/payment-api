@@ -29,7 +29,7 @@ class EditCardController(
     }
 
     data class Request(
-        val cardName: String,
+        val cardName: String
     )
 
     data class Response(

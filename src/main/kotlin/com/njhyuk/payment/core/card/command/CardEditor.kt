@@ -1,19 +1,19 @@
 package com.njhyuk.payment.core.card.command
 
 import com.njhyuk.payment.core.card.domain.CardRepository
-import com.njhyuk.payment.core.subscription.exception.NotFoundException
+import com.njhyuk.payment.core.subscription.exception.SubscriptionNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CardEditor(
-    private val cardRepository: CardRepository,
+    private val cardRepository: CardRepository
 ) {
     @Transactional
     fun edit(command: Command): Response {
         val card = cardRepository.findByIdOrNull(command.cardId)
-            ?: throw NotFoundException()
+            ?: throw SubscriptionNotFoundException()
 
         card.edit(command.cardName)
 
@@ -22,7 +22,7 @@ class CardEditor(
 
     data class Command(
         val cardId: Long,
-        val cardName: String,
+        val cardName: String
     )
 
     data class Response(

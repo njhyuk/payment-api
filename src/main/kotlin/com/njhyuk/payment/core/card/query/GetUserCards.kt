@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class GetUserCards(
-    private val cardRepository: CardRepository,
+    private val cardRepository: CardRepository
 ) {
     fun getCards(userId: String): List<Card> {
         return cardRepository.findAllByUserId(userId)

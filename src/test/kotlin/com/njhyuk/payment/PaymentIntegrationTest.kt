@@ -16,6 +16,9 @@ import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import java.time.LocalDate
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 @Ignored("실결제가 되는 테스트이기 때문에 비활성화")
@@ -38,9 +41,9 @@ class PaymentIntegrationTest(
             command = BillingRegister.Command(
                 userId = userId,
                 cardNo = testerCardConfig.cardNo,
-                expiry = testerCardConfig.expiry,
+                expiry = YearMonth.parse(testerCardConfig.expiry),
                 password = testerCardConfig.password,
-                birth = testerCardConfig.birth
+                birth = LocalDate.parse(testerCardConfig.birth, DateTimeFormatter.ofPattern("yyMMdd"))
             )
         )
 

@@ -153,8 +153,3 @@ open http://localhost:8080/docs/index.html
     * 테스트에 꼭 필요한 의존성만 주입하기 위해 통합테스트인 경우에만 `@SpringBootTest` 적용
     * Restdocs 테스트는`@WebMvcTest` 적용
     * DB 테스트 `@DataJdbcTest` 는 구현하지 않았음
-
-## 미구현한 부분
-
-* 카드번호 등 유효성 검사
-    * 컨트롤러에서 카드번호, 비밀번호등 적절한 유효성 로직을 추가해야함

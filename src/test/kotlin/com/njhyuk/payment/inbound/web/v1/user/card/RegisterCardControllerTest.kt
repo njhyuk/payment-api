@@ -7,6 +7,7 @@ import com.njhyuk.payment.inbound.web.v1.user.card.RegisterCardController.Reques
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
 import com.njhyuk.payment.restdoc.RestDocsUtil.Companion.webResponse
 import io.kotest.core.spec.style.DescribeSpec
+import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -22,6 +23,8 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.time.LocalDate
+import java.time.YearMonth
 import java.util.*
 
 @WebMvcTest(RegisterCardController::class)
@@ -43,15 +46,7 @@ class RegisterCardControllerTest(
                 val billingKey = UUID.randomUUID().toString()
 
                 given(
-                    billingRegister.register(
-                        BillingRegister.Command(
-                            userId = userId,
-                            cardNo = "0000-0000-0000-0000",
-                            expiry = "2020-01",
-                            password = "00",
-                            birth = "960101"
-                        )
-                    )
+                    billingRegister.register(any())
                 ).willReturn(
                     BillingRegister.Response(
                         billingKey = billingKey,
@@ -76,9 +71,9 @@ class RegisterCardControllerTest(
 
                 val requestBody = Request(
                     cardNo = "0000-0000-0000-0000",
-                    expiry = "2020-01",
+                    expiry = YearMonth.of(2020, 1),
                     password = "00",
-                    birth = "960101"
+                    birth = LocalDate.of(1996, 1, 1)
                 )
 
                 mockMvc.perform(

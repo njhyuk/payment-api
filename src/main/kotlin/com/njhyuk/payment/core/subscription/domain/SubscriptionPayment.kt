@@ -5,9 +5,12 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
@@ -17,13 +20,17 @@ data class SubscriptionPayment(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = 0L,
 
-    @Column(nullable = false)
+    @Column(name = "subscription_id", nullable = false)
     val subscriptionId: Long,
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subscription_id", insertable = false, updatable = false)
+    val subscription: Subscription? = null,
+
+    @Column(name = "payment_date", nullable = false)
     val paymentDate: LocalDate,
 
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     var status: Status = Status.PENDING
 ) {

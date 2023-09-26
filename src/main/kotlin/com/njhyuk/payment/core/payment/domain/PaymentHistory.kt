@@ -2,6 +2,8 @@ package com.njhyuk.payment.core.payment.domain
 
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
@@ -14,33 +16,34 @@ data class PaymentHistory(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    @Column(nullable = false)
+    @Column(name = "payment_id", nullable = false)
     val paymentId: Long,
 
-    @Column(nullable = false)
+    @Column(name = "user_id", nullable = false)
     val userId: String,
 
-    @Column(nullable = false)
+    @Column(name = "card_id", nullable = false)
     val cardId: Long,
 
-    @Column(nullable = false)
+    @Column(name = "transaction_id", nullable = false, unique = true)
     val transactionId: String,
 
-    @Column(nullable = false)
+    @Column(name = "partner_payment_id", nullable = false, unique = true)
     val partnerPaymentId: String,
 
-    @Column(nullable = false)
+    @Column(name = "service_key", nullable = false)
     val serviceKey: String,
 
-    @Column(nullable = false)
+    @Column(name = "product_name", nullable = false)
     val productName: String,
 
-    @Column(nullable = false)
+    @Column(name = "amount", nullable = false)
     val amount: Long,
 
-    @Column(nullable = false)
-    val cancelAmount: Long = 0,
+    @Column(name = "cancel_amount", nullable = false)
+    var cancelAmount: Long = 0,
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     var status: PaymentStatus
 )

@@ -46,7 +46,7 @@ class SinglePaymentControllerTest(
                 ).andExpect(MockMvcResultMatchers.status().isOk)
                     .andDo(
                         MockMvcRestDocumentation.document(
-                            "v1/payment_register",
+                            "v1/user/payment_register",
                             HeaderDocumentation.requestHeaders(
                                 HeaderDocumentation.headerWithName("user-id").description("유저 식별자")
                             ),

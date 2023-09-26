@@ -15,12 +15,25 @@ class SinglePaymentController(
     @PostMapping("/user/v1/payment")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
-        @RequestBody request: Command
+        @RequestBody request: Request
     ): WebResponse<Response> {
-        val payment = singlePaymentor.payment(request)
+        val payment = singlePaymentor.payment(
+            Command(
+                cardId = request.cardId,
+                userId = userId,
+                amount = request.amount,
+                reason = request.reason
+            )
+        )
 
         return WebResponse.success(Response(payment.paymentId))
     }
+
+    data class Request(
+        val cardId: Long,
+        val amount: Long,
+        val reason: String
+    )
 
     data class Response(
         val paymentId: Long

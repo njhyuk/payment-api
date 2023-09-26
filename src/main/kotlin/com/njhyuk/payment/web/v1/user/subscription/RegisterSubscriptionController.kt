@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
 
 @RestController
 class RegisterSubscriptionController(
@@ -15,12 +16,25 @@ class RegisterSubscriptionController(
     @PostMapping("/user/v1/subscription")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
-        @RequestBody request: Command
+        @RequestBody request: Request
     ): WebResponse<Response> {
-        val subscription = subscriptionRegister.register(request)
+        val subscription = subscriptionRegister.register(
+            Command(
+                cardId = request.cardId,
+                userId = userId,
+                amount = request.amount,
+                paymentDate = request.paymentDate
+            )
+        )
 
         return WebResponse.success(Response(subscription.subscriptionId))
     }
+
+    data class Request(
+        val cardId: Long,
+        val amount: Long,
+        val paymentDate: LocalDate
+    )
 
     data class Response(
         val subscriptionId: Long

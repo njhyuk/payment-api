@@ -17,7 +17,7 @@ class SubscriptionRegister(
                 amount = command.amount,
                 paymentDate = command.paymentDate,
                 serviceKey = command.serviceKey,
-                serviceOrderId = command.serviceOrderId
+                serviceTransactionId = command.serviceTransactionId
             )
         )
 
@@ -30,7 +30,7 @@ class SubscriptionRegister(
         val amount: Long,
         val paymentDate: LocalDate,
         val serviceKey: String,
-        val serviceOrderId: String
+        val serviceTransactionId: String
     )
 
     data class Response(

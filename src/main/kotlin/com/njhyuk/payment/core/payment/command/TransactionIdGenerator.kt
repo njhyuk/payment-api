@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class OrderIdGenerator {
-    fun generate(serviceKey: String, serviceOrderId: String): String {
+class TransactionIdGenerator {
+    fun generate(serviceKey: String, serviceTransactionId: String): String {
         return UUID.randomUUID().toString()
     }
 }

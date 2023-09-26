@@ -14,7 +14,7 @@ data class Payment(
     val id: Long? = null,
     val userId: String,
     val cardId: Long,
-    val orderId: String,
+    val transactionId: String,
     val partnerPaymentId: String,
     val serviceKey: String,
     val productName: String,

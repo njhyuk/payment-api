@@ -29,7 +29,7 @@ class SubscriptionDailyPaymentor(
                         amount = it.amount,
                         productName = SUBSCRIPTION_PAYMENT_NAME,
                         serviceKey = it.serviceKey,
-                        orderId = it.serviceOrderId
+                        serviceTransactionId = it.serviceTransactionId
                     )
                 )
             }

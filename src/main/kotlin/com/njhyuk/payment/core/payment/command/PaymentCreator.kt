@@ -6,15 +6,18 @@ import org.springframework.stereotype.Service
 class PaymentCreator(
     private val paymentPartner: PaymentPartner,
     private val paymentRecorder: PaymentRecorder,
-    private val orderIdGenerator: OrderIdGenerator
+    private val transactionIdGenerator: TransactionIdGenerator
 ) {
     fun create(command: Command): Response {
-        val orderId = orderIdGenerator.generate(command.serviceKey, command.orderId)
+        val transactionId = transactionIdGenerator.generate(
+            serviceKey = command.serviceKey,
+            serviceTransactionId = command.serviceTransactionId
+        )
 
         val partner = paymentPartner.payment(
             PaymentPartner.Command(
                 cardId = command.cardId,
-                orderId = orderId,
+                transactionId = transactionId,
                 userId = command.userId,
                 amount = command.amount,
                 productName = command.productName
@@ -24,7 +27,7 @@ class PaymentCreator(
         val payment = paymentRecorder.create(
             PaymentRecorder.Command(
                 cardId = command.cardId,
-                orderId = orderId,
+                transactionId = transactionId,
                 serviceKey = command.serviceKey,
                 partnerPaymentId = partner.partnerPaymentId,
                 userId = command.userId,
@@ -35,13 +38,13 @@ class PaymentCreator(
 
         return Response(
             paymentId = payment.paymentId,
-            orderId = command.orderId
+            transactionId = command.serviceTransactionId
         )
     }
 
     data class Command(
         val serviceKey: String,
-        val orderId: String,
+        val serviceTransactionId: String,
         val cardId: Long,
         val userId: String,
         val amount: Long,
@@ -50,6 +53,6 @@ class PaymentCreator(
 
     data class Response(
         val paymentId: Long,
-        val orderId: String
+        val transactionId: String
     )
 }

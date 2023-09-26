@@ -60,7 +60,7 @@ class PaymentControllerTest(
         context("단건 결제 데이터가 정상이라면") {
             it("200 OK. 정상 결제된다.") {
                 val requestBody = PaymentController.Request(
-                    orderId = UUID.randomUUID().toString(),
+                    serviceTransactionId = UUID.randomUUID().toString(),
                     cardId = card.cardId,
                     amount = 100,
                     serviceKey = "COMMERCE",
@@ -82,7 +82,7 @@ class PaymentControllerTest(
                             PayloadDocumentation.responseFields(
                                 *RestDocsUtil.webResponse(),
                                 PayloadDocumentation.fieldWithPath("data.paymentId").description("결제 ID"),
-                                PayloadDocumentation.fieldWithPath("data.orderId").description("거래 ID")
+                                PayloadDocumentation.fieldWithPath("data.transactionId").description("거래 ID")
                             )
                         )
                     )

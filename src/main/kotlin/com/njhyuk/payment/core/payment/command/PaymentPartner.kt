@@ -31,7 +31,7 @@ class PaymentPartner(
             authorization = token.response.accessToken,
             request = PaymentRequest(
                 customerUid = card.billingKey,
-                merchantUid = command.orderId,
+                merchantUid = command.transactionId,
                 amount = command.amount,
                 name = command.productName
             )
@@ -45,7 +45,7 @@ class PaymentPartner(
 
     data class Command(
         val cardId: Long,
-        val orderId: String,
+        val transactionId: String,
         val userId: String,
         val amount: Long,
         val productName: String

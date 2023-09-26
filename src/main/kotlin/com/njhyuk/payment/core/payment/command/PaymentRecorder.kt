@@ -16,7 +16,7 @@ class PaymentRecorder(
             Payment(
                 userId = command.userId,
                 cardId = command.cardId,
-                orderId = command.orderId,
+                transactionId = command.transactionId,
                 partnerPaymentId = command.partnerPaymentId,
                 amount = command.amount,
                 status = PaymentStatus.PAYMENT,
@@ -31,7 +31,7 @@ class PaymentRecorder(
     data class Command(
         val cardId: Long,
         val serviceKey: String,
-        val orderId: String,
+        val transactionId: String,
         val partnerPaymentId: String,
         val userId: String,
         val amount: Long,

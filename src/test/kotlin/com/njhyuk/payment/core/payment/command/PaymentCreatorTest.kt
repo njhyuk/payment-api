@@ -45,7 +45,7 @@ class PaymentCreatorTest(
             val response = paymentCreator.create(
                 Command(
                     serviceKey = "COMMERCE",
-                    orderId = "4354665654",
+                    serviceTransactionId = "4354665654",
                     cardId = card.cardId,
                     userId = userId,
                     amount = 100,

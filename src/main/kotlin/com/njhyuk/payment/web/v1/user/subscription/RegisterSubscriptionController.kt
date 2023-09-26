@@ -25,7 +25,7 @@ class RegisterSubscriptionController(
                 amount = request.amount,
                 paymentDate = request.paymentDate,
                 serviceKey = request.serviceKey,
-                serviceOrderId = request.serviceOrderId
+                serviceTransactionId = request.serviceTransactionId
             )
         )
 
@@ -37,7 +37,7 @@ class RegisterSubscriptionController(
         val amount: Long,
         val paymentDate: LocalDate,
         val serviceKey: String,
-        val serviceOrderId: String
+        val serviceTransactionId: String
     )
 
     data class Response(

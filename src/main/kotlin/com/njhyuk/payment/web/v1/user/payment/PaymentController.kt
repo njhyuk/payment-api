@@ -20,7 +20,7 @@ class PaymentController(
         val payment = paymentCreator.create(
             Command(
                 serviceKey = request.serviceKey,
-                orderId = request.orderId,
+                serviceTransactionId = request.serviceTransactionId,
                 cardId = request.cardId,
                 userId = userId,
                 amount = request.amount,
@@ -31,14 +31,14 @@ class PaymentController(
         return WebResponse.success(
             Response(
                 paymentId = payment.paymentId,
-                orderId = payment.orderId
+                transactionId = payment.transactionId
             )
         )
     }
 
     data class Request(
         val serviceKey: String,
-        val orderId: String,
+        val serviceTransactionId: String,
         val cardId: Long,
         val amount: Long,
         val productName: String
@@ -46,6 +46,6 @@ class PaymentController(
 
     data class Response(
         val paymentId: Long,
-        val orderId: String
+        val transactionId: String
     )
 }

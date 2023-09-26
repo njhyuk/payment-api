@@ -24,7 +24,7 @@ class PaymentCreator(
             )
         )
 
-        val payment = paymentRecorder.create(
+        val payment = paymentRecorder.record(
             PaymentCreateRecorder.Command(
                 cardId = command.cardId,
                 transactionId = transactionId,

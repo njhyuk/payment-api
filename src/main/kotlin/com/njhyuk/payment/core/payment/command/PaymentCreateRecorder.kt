@@ -12,7 +12,7 @@ class PaymentCreateRecorder(
     private val paymentHistoryCreator: PaymentHistoryCreator
 ) {
     @Transactional
-    fun create(command: Command): Response {
+    fun record(command: Command): Response {
         val payment = paymentRepository.save(
             Payment(
                 userId = command.userId,

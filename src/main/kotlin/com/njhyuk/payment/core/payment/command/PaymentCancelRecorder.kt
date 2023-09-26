@@ -11,7 +11,7 @@ class PaymentCancelRecorder(
     private val paymentHistoryCreator: PaymentHistoryCreator
 ) {
     @Transactional
-    fun cancel(command: Command): Response {
+    fun record(command: Command): Response {
         val payment = paymentRepository.findByIdWithLock(command.paymentId)
             ?: throw PaymentNotFoundException()
 
@@ -22,7 +22,7 @@ class PaymentCancelRecorder(
     }
 
     data class Command(
-        val paymentId: Long,
+        val paymentId: Long
     )
 
     data class Response(

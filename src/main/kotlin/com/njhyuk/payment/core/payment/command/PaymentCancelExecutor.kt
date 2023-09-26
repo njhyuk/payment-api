@@ -35,7 +35,7 @@ class PaymentCancelExecutor(
     }
 
     data class Command(
-        val partnerPaymentId: String,
+        val partnerPaymentId: String
     )
 
     data class Response(

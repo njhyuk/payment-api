@@ -2,17 +2,19 @@ package com.njhyuk.payment.core.subscription.command
 
 import com.njhyuk.payment.core.card.domain.CardRepository
 import com.njhyuk.payment.core.payment.command.PaymentCreator
-import com.njhyuk.payment.core.subscription.domain.Subscription
 import com.njhyuk.payment.core.subscription.domain.SubscriptionPayment
 import com.njhyuk.payment.core.subscription.domain.SubscriptionPaymentRepository
+import com.njhyuk.payment.core.subscription.domain.SubscriptionRepository
 import com.njhyuk.payment.core.subscription.exception.SubscriptionDuplicatedException
 import com.njhyuk.payment.core.subscription.exception.SubscriptionNotFoundException
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
 class SubscriptionPaymentor(
     private val cardRepository: CardRepository,
+    private val subscriptionRepository: SubscriptionRepository,
     private val subscriptionPaymentRepository: SubscriptionPaymentRepository,
     private val paymentCreator: PaymentCreator
 ) {
@@ -20,7 +22,9 @@ class SubscriptionPaymentor(
         const val SUBSCRIPTION_PAYMENT_NAME = "정기결제"
     }
 
-    fun payment(subscription: Subscription, paymentDate: LocalDate) {
+    fun payment(subscriptionId: Long, paymentDate: LocalDate) {
+        val subscription = subscriptionRepository.findByIdOrNull(subscriptionId)
+            ?: throw SubscriptionNotFoundException()
         val card = cardRepository.findByIdAndUserId(subscription.cardId, subscription.userId)
             ?: throw SubscriptionNotFoundException()
 

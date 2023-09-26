@@ -21,9 +21,8 @@ class SinglePaymentorTest(
                 CardRegister.Command(
                     userId = "010-0000-0000",
                     cardNo = "0000-0000-0000-0000",
-                    expiry = "2099-01",
-                    birth = "800101",
-                    password = "00"
+                    billingKey = "TEST_BILLING_KEY",
+                    cardName = "AA카드",
                 )
             )
 

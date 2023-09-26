@@ -2,6 +2,7 @@ package com.njhyuk.payment.core.subscription.domain
 
 import com.njhyuk.payment.core.card.domain.Card
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -46,9 +47,16 @@ data class Subscription(
     val serviceKey: String,
 
     @Column(name = "service_transaction_id", nullable = false)
-    val serviceTransactionId: String
+    val serviceTransactionId: String,
+
+    @Column(name = "created_at", nullable = false)
+    val createdAt: LocalDateTime,
+
+    @Column(name = "updated_at", nullable = false)
+    var updatedAt: LocalDateTime
 ) {
     fun cancel() {
         this.status = SubscriptionStatus.CANCELLED
+        this.updatedAt = LocalDateTime.now()
     }
 }

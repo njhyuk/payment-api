@@ -4,6 +4,7 @@ import com.njhyuk.payment.core.subscription.domain.Subscription
 import com.njhyuk.payment.core.subscription.domain.SubscriptionRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
 class SubscriptionRegister(
@@ -17,7 +18,9 @@ class SubscriptionRegister(
                 amount = command.amount,
                 paymentDate = command.paymentDate,
                 serviceKey = command.serviceKey,
-                serviceTransactionId = command.serviceTransactionId
+                serviceTransactionId = command.serviceTransactionId,
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now(),
             )
         )
 

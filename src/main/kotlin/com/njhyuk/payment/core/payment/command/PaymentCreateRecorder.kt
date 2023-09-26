@@ -5,6 +5,7 @@ import com.njhyuk.payment.core.payment.domain.PaymentRepository
 import com.njhyuk.payment.core.payment.domain.PaymentStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 class PaymentCreateRecorder(
@@ -22,7 +23,9 @@ class PaymentCreateRecorder(
                 amount = command.amount,
                 status = PaymentStatus.PAYMENT,
                 productName = command.productName,
-                serviceKey = command.serviceKey
+                serviceKey = command.serviceKey,
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
             )
         )
 

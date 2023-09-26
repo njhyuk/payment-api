@@ -1,6 +1,7 @@
 package com.njhyuk.payment.core.payment.domain
 
 import com.njhyuk.payment.core.card.domain.Card
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -50,10 +51,17 @@ data class Payment(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    var status: PaymentStatus
+    var status: PaymentStatus,
+
+    @Column(name = "created_at", nullable = false)
+    val createdAt: LocalDateTime,
+
+    @Column(name = "updated_at", nullable = false)
+    var updatedAt: LocalDateTime
 ) {
     fun cancel() {
         this.status = PaymentStatus.CANCEL
         this.cancelAmount = amount
+        this.updatedAt = LocalDateTime.now()
     }
 }

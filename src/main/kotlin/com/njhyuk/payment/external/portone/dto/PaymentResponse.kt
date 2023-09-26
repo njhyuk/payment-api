@@ -156,13 +156,13 @@ data class PaymentResponse(
      * 결제금액 (필수)
      */
     @JsonProperty("amount")
-    val amount: Double,
+    val amount: Long,
 
     /**
      * 취소금액 (필수)
      */
     @JsonProperty("cancel_amount")
-    val cancelAmount: Double,
+    val cancelAmount: Long,
 
     /**
      * 결제통화 구분코드 (필수)
@@ -264,7 +264,7 @@ data class PaymentResponse(
      * 결제건의 취소/부분취소 내역 (선택)
      */
     @JsonProperty("cancel_history")
-    val cancelHistory: List<PaymentCancelAnnotationDTO>?,
+    val cancelHistory: List<PaymentCancelResponse>?,
 
     /**
      * 취소 매출전표 URL (선택)
@@ -293,17 +293,36 @@ data class PaymentResponse(
 
 /**
  * 결제 취소 내역
+ * @see <a href="https://developers.portone.io/api/rest-v1/type-def#PaymentCancelAnnotation">PaymentCancelAnnotation 문서</a>
  */
-data class PaymentCancelAnnotationDTO(
+data class PaymentCancelResponse(
     /**
-     * 취소 사유 (선택)
+     * PG사 승인취소번호
      */
-    @JsonProperty("cancel_reason")
-    val cancelReason: String?,
+    @JsonProperty("pg_tid")
+    val pgTid: String,
 
     /**
-     * 취소 시각 UNIX timestamp (선택)
+     * 결제건의 취소 금액
+     */
+    @JsonProperty("amount")
+    val amount: Double,
+
+    /**
+     * 결제건의 결제취소된 시각 UNIX timestamp
      */
     @JsonProperty("cancelled_at")
-    val cancelledAt: Int?
+    val cancelledAt: Long,
+
+    /**
+     * 결제건의 결제취소 사유
+     */
+    @JsonProperty("reason")
+    val reason: String,
+
+    /**
+     * 결제건의 취소 매출전표 확인 URL로 PG사, 결제 수단에 따라 제공되지 않을 수 있습니다.
+     */
+    @JsonProperty("receipt_url")
+    val receiptUrl: String?
 )

@@ -17,7 +17,9 @@ data class Subscription(
     val userId: String,
     val amount: Long,
     val paymentDate: LocalDate,
-    var status: SubscriptionStatus = SubscriptionStatus.ACTIVE
+    var status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
+    val serviceKey: String,
+    val serviceOrderId: String
 ) {
     fun cancel() {
         this.status = SubscriptionStatus.CANCELLED

@@ -8,7 +8,6 @@ import com.njhyuk.payment.external.portone.dto.PaymentCancelRequest
 import com.njhyuk.payment.external.portone.dto.PaymentRequest
 import com.njhyuk.payment.external.portone.dto.PaymentResponse
 import com.njhyuk.payment.external.portone.dto.PortOneApiResponse
-import mu.KotlinLogging
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

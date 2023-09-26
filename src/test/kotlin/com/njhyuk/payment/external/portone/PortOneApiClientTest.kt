@@ -87,7 +87,7 @@ class PortOneApiClientTest(
                     authorization = token.response.accessToken,
                     request = PaymentRequest(
                         customerUid = data.response.customerUid,
-                        merchantUid = portOneConfig.storeId,
+                        merchantUid = "TEST_ORDER_NO",
                         amount = 100,
                         name = "아이폰 15 프로"
                     )
@@ -123,7 +123,7 @@ class PortOneApiClientTest(
                     authorization = token.response.accessToken,
                     request = PaymentRequest(
                         customerUid = data.response.customerUid,
-                        merchantUid = portOneConfig.storeId,
+                        merchantUid = "TEST_ORDER_NO" + UUID.randomUUID(),
                         amount = 100,
                         name = "아이폰 15 프로"
                     )
@@ -132,7 +132,7 @@ class PortOneApiClientTest(
                 val cancel = portOneApiClient.cancelPayment(
                     authorization = token.response.accessToken,
                     request = PaymentCancelRequest(
-                        impUid = payment.response.impUid,
+                        impUid = payment.response.impUid
                     )
                 )
 

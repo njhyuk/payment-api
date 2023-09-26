@@ -72,6 +72,5 @@ data class PaymentCancelRequest(
      * 환불계좌 예금주 연락처. 가상계좌 취소인 경우 필수.
      */
     @JsonProperty("refund_tel")
-    val refundTel: String? = null,
+    val refundTel: String? = null
 )
-

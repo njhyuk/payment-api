@@ -15,7 +15,9 @@ class SubscriptionRegister(
                 cardId = command.cardId,
                 userId = command.userId,
                 amount = command.amount,
-                paymentDate = command.paymentDate
+                paymentDate = command.paymentDate,
+                serviceKey = command.serviceKey,
+                serviceOrderId = command.serviceOrderId
             )
         )
 
@@ -26,7 +28,9 @@ class SubscriptionRegister(
         val cardId: Long,
         val userId: String,
         val amount: Long,
-        val paymentDate: LocalDate
+        val paymentDate: LocalDate,
+        val serviceKey: String,
+        val serviceOrderId: String
     )
 
     data class Response(

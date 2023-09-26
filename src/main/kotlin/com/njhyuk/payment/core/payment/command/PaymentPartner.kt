@@ -1,8 +1,6 @@
 package com.njhyuk.payment.core.payment.command
 
 import com.njhyuk.payment.core.card.domain.CardRepository
-import com.njhyuk.payment.core.payment.domain.Payment
-import com.njhyuk.payment.core.payment.domain.PaymentRepository
 import com.njhyuk.payment.core.subscription.exception.SubscriptionNotFoundException
 import com.njhyuk.payment.external.portone.PortOneApiClient
 import com.njhyuk.payment.external.portone.PortOneConfig
@@ -13,9 +11,8 @@ import org.springframework.stereotype.Service
 
 @Service
 @EnableConfigurationProperties(PortOneConfig::class)
-class SinglePaymentor(
+class PaymentPartner(
     private val cardRepository: CardRepository,
-    private val paymentRepository: PaymentRepository,
     private val portOneApiClient: PortOneApiClient,
     private val portOneConfig: PortOneConfig
 ) {
@@ -30,33 +27,32 @@ class SinglePaymentor(
             )
         )
 
-        portOneApiClient.payment(
+        val payment = portOneApiClient.payment(
             authorization = token.response.accessToken,
             request = PaymentRequest(
                 customerUid = card.billingKey,
-                merchantUid = portOneConfig.storeId,
+                merchantUid = command.orderId,
                 amount = command.amount,
-                name = command.reason
+                name = command.productName
             )
-        )
+        ).response
 
-        val payment = paymentRepository.save(
-            Payment(
-                userId = command.userId
-            )
+        return Response(
+            partnerPaymentId = payment.impUid,
+            amount = payment.amount
         )
-
-        return Response(payment.id!!)
     }
 
     data class Command(
         val cardId: Long,
+        val orderId: String,
         val userId: String,
         val amount: Long,
-        val reason: String
+        val productName: String
     )
 
     data class Response(
-        val paymentId: Long
+        val partnerPaymentId: String,
+        val amount: Long
     )
 }

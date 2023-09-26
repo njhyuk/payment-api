@@ -3,7 +3,7 @@ package com.njhyuk.payment.core.payment.command
 import com.njhyuk.payment.TesterCardConfig
 import com.njhyuk.payment.core.card.command.BillingRegister
 import com.njhyuk.payment.core.card.command.CardRegister
-import com.njhyuk.payment.core.payment.command.SinglePaymentor.Command
+import com.njhyuk.payment.core.payment.command.PaymentCreator.Command
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -13,11 +13,11 @@ import org.springframework.test.context.ActiveProfiles
 @SpringBootTest
 @ActiveProfiles("local", "test")
 @EnableConfigurationProperties(TesterCardConfig::class)
-class SinglePaymentorTest(
+class PaymentCreatorTest(
     private val cardRegister: CardRegister,
     private val billingRegister: BillingRegister,
     private val testerCardConfig: TesterCardConfig,
-    private val singlePaymentor: SinglePaymentor
+    private val paymentCreator: PaymentCreator
 ) : DescribeSpec({
     describe("payment 메서드는") {
         it("단건 결제를 처리한다") {
@@ -42,12 +42,14 @@ class SinglePaymentorTest(
                 )
             )
 
-            val response = singlePaymentor.payment(
+            val response = paymentCreator.create(
                 Command(
+                    serviceKey = "COMMERCE",
+                    orderId = "4354665654",
                     cardId = card.cardId,
                     userId = userId,
                     amount = 100,
-                    reason = "반바지"
+                    productName = "반바지"
                 )
             )
 

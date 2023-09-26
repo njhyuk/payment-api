@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.njhyuk.payment.TesterCardConfig
 import com.njhyuk.payment.core.card.command.BillingRegister
 import com.njhyuk.payment.core.card.command.CardRegister
-import com.njhyuk.payment.core.payment.command.SinglePaymentor.Command
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
 import com.njhyuk.payment.restdoc.RestDocsUtil
 import io.kotest.core.spec.style.DescribeSpec
@@ -21,6 +20,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import java.util.UUID
 
 @SpringBootTest
 @ActiveProfiles("local", "test")
@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @AutoConfigureRestDocs
 @Import(RestDocsConfiguration::class)
 @EnableConfigurationProperties(TesterCardConfig::class)
-class SinglePaymentControllerTest(
+class PaymentControllerTest(
     private val objectMapper: ObjectMapper,
     private val mockMvc: MockMvc,
     private val cardRegister: CardRegister,
@@ -59,11 +59,12 @@ class SinglePaymentControllerTest(
 
         context("단건 결제 데이터가 정상이라면") {
             it("200 OK. 정상 결제된다.") {
-                val requestBody = Command(
+                val requestBody = PaymentController.Request(
+                    orderId = UUID.randomUUID().toString(),
                     cardId = card.cardId,
-                    userId = userId,
                     amount = 100,
-                    reason = "반바지"
+                    serviceKey = "COMMERCE",
+                    productName = "반바지"
                 )
 
                 mockMvc.perform(
@@ -80,7 +81,8 @@ class SinglePaymentControllerTest(
                             ),
                             PayloadDocumentation.responseFields(
                                 *RestDocsUtil.webResponse(),
-                                PayloadDocumentation.fieldWithPath("data.paymentId").description("결제 ID")
+                                PayloadDocumentation.fieldWithPath("data.paymentId").description("결제 ID"),
+                                PayloadDocumentation.fieldWithPath("data.orderId").description("거래 ID")
                             )
                         )
                     )

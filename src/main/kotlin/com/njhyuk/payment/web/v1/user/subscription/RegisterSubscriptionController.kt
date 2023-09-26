@@ -23,7 +23,9 @@ class RegisterSubscriptionController(
                 cardId = request.cardId,
                 userId = userId,
                 amount = request.amount,
-                paymentDate = request.paymentDate
+                paymentDate = request.paymentDate,
+                serviceKey = request.serviceKey,
+                serviceOrderId = request.serviceOrderId
             )
         )
 
@@ -33,7 +35,9 @@ class RegisterSubscriptionController(
     data class Request(
         val cardId: Long,
         val amount: Long,
-        val paymentDate: LocalDate
+        val paymentDate: LocalDate,
+        val serviceKey: String,
+        val serviceOrderId: String
     )
 
     data class Response(

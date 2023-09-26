@@ -1,5 +1,6 @@
 package com.njhyuk.payment.web.v1.user.card
 
+import com.njhyuk.payment.core.card.command.BillingRegister
 import com.njhyuk.payment.core.card.command.CardRegister
 import com.njhyuk.payment.web.WebResponse
 import org.springframework.web.bind.annotation.PostMapping
@@ -9,20 +10,30 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class RegisterCardController(
-    private val cardRegister: CardRegister
+    private val cardRegister: CardRegister,
+    private val billingRegister: BillingRegister
 ) {
     @PostMapping("/user/v1/card")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
         @RequestBody request: Request
     ): WebResponse<Response> {
-        val card = cardRegister.register(
-            CardRegister.Command(
+        val billing = billingRegister.register(
+            command = BillingRegister.Command(
                 userId = userId,
                 cardNo = request.cardNo,
                 expiry = request.expiry,
                 password = request.password,
                 birth = request.birth
+            )
+        )
+
+        val card = cardRegister.register(
+            CardRegister.Command(
+                userId = userId,
+                cardNo = request.cardNo,
+                billingKey = billing.billingKey,
+                cardName = billing.cardName
             )
         )
 

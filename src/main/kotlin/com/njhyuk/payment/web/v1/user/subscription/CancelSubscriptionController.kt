@@ -12,9 +12,13 @@ class CancelSubscriptionController(
     @PostMapping("/user/v1/subscription/cancel")
     fun cancel(
         @RequestHeader(name = "user-id") userId: String
-    ): CancelSubscriptionResponse {
+    ): Response {
         val subscription = canceler.cancel(userId)
 
-        return CancelSubscriptionResponse(subscription.subscriptionId)
+        return Response(subscription.subscriptionId)
     }
+
+    data class Response(
+        val subscriptionId: Long
+    )
 }

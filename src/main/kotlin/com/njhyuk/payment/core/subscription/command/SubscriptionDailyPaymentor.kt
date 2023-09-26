@@ -1,7 +1,6 @@
 package com.njhyuk.payment.core.subscription.command
 
 import com.njhyuk.payment.core.card.domain.CardRepository
-import com.njhyuk.payment.core.payment.command.SinglePaymentCommand
 import com.njhyuk.payment.core.payment.command.SinglePaymentor
 import com.njhyuk.payment.core.subscription.exception.NotFoundException
 import com.njhyuk.payment.core.subscription.domain.SubscriptionRepository
@@ -23,7 +22,7 @@ class SubscriptionDailyPaymentor(
                 ) ?: throw NotFoundException()
 
                 singlePaymentor.payment(
-                    SinglePaymentCommand(
+                    SinglePaymentor.Command(
                         cardId = card.id!!,
                         userId = card.userId,
                         amount = it.amount,

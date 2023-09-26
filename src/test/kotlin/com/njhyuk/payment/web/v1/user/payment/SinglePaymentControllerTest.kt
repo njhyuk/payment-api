@@ -1,7 +1,7 @@
 package com.njhyuk.payment.web.v1.user.payment
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.njhyuk.payment.core.payment.command.SinglePaymentCommand
+import com.njhyuk.payment.core.payment.command.SinglePaymentor.Command
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
 import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.DescribeSpec
@@ -31,7 +31,7 @@ class SinglePaymentControllerTest(
     describe("단건 결제 API") {
         context("단건 결제 데이터가 정상이라면") {
             it("200 OK. 카드를 등록한다.") {
-                val requestBody = SinglePaymentCommand(
+                val requestBody = Command(
                     cardId = 1,
                     userId = "010-1234-5678",
                     amount = 100,

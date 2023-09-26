@@ -1,7 +1,7 @@
 package com.njhyuk.payment.core.payment.command
 
 import com.njhyuk.payment.core.card.command.CardRegister
-import com.njhyuk.payment.core.card.command.CardRegisterCommand
+import com.njhyuk.payment.core.payment.command.SinglePaymentor.Command
 import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -18,7 +18,7 @@ class SinglePaymentorTest(
     describe("payment 메서드는") {
         it("단건 결제를 처리한다") {
             val card = register.register(
-                CardRegisterCommand(
+                CardRegister.Command(
                     userId = "010-0000-0000",
                     cardNo = "0000-0000-0000-0000",
                     expiry = "2099-01",
@@ -28,7 +28,7 @@ class SinglePaymentorTest(
             )
 
             val response = singlePaymentor.payment(
-                SinglePaymentCommand(
+                Command(
                     cardId = card.cardId,
                     userId = "010-0000-0000",
                     amount = 100,

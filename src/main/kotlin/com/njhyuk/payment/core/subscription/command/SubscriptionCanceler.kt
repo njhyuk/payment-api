@@ -10,12 +10,16 @@ class SubscriptionCanceler(
     private val subscriptionRepository: SubscriptionRepository
 ) {
     @Transactional
-    fun cancel(userId: String): SubscriptionRegisterResponse {
+    fun cancel(userId: String): Response {
         val subscription = subscriptionRepository.findByUserId(userId)
             ?: throw NotFoundException()
 
         subscription.cancel()
 
-        return SubscriptionRegisterResponse(subscription.id!!)
+        return Response(subscription.id!!)
     }
+
+    data class Response(
+        val subscriptionId: Long
+    )
 }

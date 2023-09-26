@@ -19,7 +19,7 @@ class SinglePaymentor(
     private val portOneApiClient: PortOneApiClient,
     private val portOneConfig: PortOneConfig
 ) {
-    fun payment(command: SinglePaymentCommand): SinglePaymentResponse {
+    fun payment(command: Command): Response {
         val card = cardRepository.findByIdAndUserId(command.cardId, command.userId)
             ?: throw NotFoundException()
 
@@ -46,6 +46,18 @@ class SinglePaymentor(
             )
         )
 
-        return SinglePaymentResponse(payment.id!!)
+        return Response(payment.id!!)
     }
+
+    data class Command(
+        val cardId: Long,
+        val userId: String,
+        val amount: Long,
+        val reason: String
+    )
+
+    data class Response(
+        val paymentId: Long
+    )
+
 }

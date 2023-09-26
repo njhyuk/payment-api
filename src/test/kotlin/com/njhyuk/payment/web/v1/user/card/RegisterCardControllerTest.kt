@@ -2,6 +2,7 @@ package com.njhyuk.payment.web.v1.user.card
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
+import com.njhyuk.payment.web.v1.user.card.RegisterCardController.Request
 import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.DescribeSpec
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
@@ -32,7 +33,7 @@ class RegisterCardControllerTest(
     describe("카드 등록 API") {
         context("카드 등록 데이터가 정상이라면") {
             it("200 OK. 카드를 등록한다.") {
-                val requestBody = RegisterCardRequest(
+                val requestBody = Request(
                     cardNo = "0000-0000-0000-000",
                     expiry = "2027-10",
                     password = "0000",
@@ -47,7 +48,7 @@ class RegisterCardControllerTest(
                 ).andExpect(status().isOk)
                     .andDo(
                         document(
-                            "v1/card_register",
+                            "v1/user/card_register",
                             requestHeaders(
                                 headerWithName("user-id").description("유저 식별자")
                             ),

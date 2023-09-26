@@ -15,7 +15,7 @@ class CardRegisterTest(
     describe("register 메서드는") {
         it("카드를 등록한다") {
             val response = register.register(
-                CardRegisterCommand(
+                CardRegister.Command(
                     userId = "010-0000-0000",
                     cardNo = "0000-0000-0000-0000",
                     expiry = "2099-01",

@@ -3,4 +3,4 @@
 
 === 카드 등록 API
 
-operation::v1/card_register[snippets='http-request,request-headers,http-response,response-fields']
+operation::v1/user/card_register[snippets='http-request,request-headers,http-response,response-fields']

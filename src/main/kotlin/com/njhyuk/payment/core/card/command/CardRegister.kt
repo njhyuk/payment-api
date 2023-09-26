@@ -18,7 +18,7 @@ class CardRegister(
     private val portOneApiClient: PortOneApiClient,
     private val portOneConfig: PortOneConfig
 ) {
-    fun register(command: CardRegisterCommand): CardRegisterResponse {
+    fun register(command: Command): Response {
         val token = portOneApiClient.getToken(
             GetTokenRequest(
                 impKey = portOneConfig.impKey,
@@ -48,6 +48,18 @@ class CardRegister(
             )
         )
 
-        return CardRegisterResponse(card.id!!)
+        return Response(card.id!!)
     }
+
+    data class Command(
+        val userId: String,
+        val cardNo: String,
+        val expiry: String,
+        val password: String,
+        val birth: String
+    )
+
+    data class Response(
+        val cardId: Long
+    )
 }

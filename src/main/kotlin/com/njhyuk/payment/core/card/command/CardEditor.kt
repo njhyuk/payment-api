@@ -11,10 +11,21 @@ class CardEditor(
     private val cardRepository: CardRepository,
 ) {
     @Transactional
-    fun edit(command: CardEditorCommand) {
+    fun edit(command: Command): Response {
         val card = cardRepository.findByIdOrNull(command.cardId)
             ?: throw NotFoundException()
 
         card.edit(command.cardName)
+
+        return Response(card.id!!)
     }
+
+    data class Command(
+        val cardId: Long,
+        val cardName: String,
+    )
+
+    data class Response(
+        val cardId: Long
+    )
 }

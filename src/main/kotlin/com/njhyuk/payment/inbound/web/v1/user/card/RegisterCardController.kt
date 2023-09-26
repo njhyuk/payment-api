@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.format.DateTimeFormatter
 import javax.validation.Valid
 import javax.validation.constraints.AssertTrue
 import javax.validation.constraints.Size
@@ -23,7 +22,8 @@ class RegisterCardController(
     @PostMapping("/v1/user/card")
     fun register(
         @RequestHeader(name = "user-id") userId: String,
-        @Valid @RequestBody request: Request
+        @Valid @RequestBody
+        request: Request
     ): WebResponse<Response> {
         val billing = billingRegister.register(
             command = BillingRegister.Command(
@@ -31,7 +31,7 @@ class RegisterCardController(
                 cardNo = request.cardNo,
                 expiry = request.expiry,
                 password = request.password,
-                birth = request.birth,
+                birth = request.birth
             )
         )
 

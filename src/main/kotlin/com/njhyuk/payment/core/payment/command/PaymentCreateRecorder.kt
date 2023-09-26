@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class PaymentRecorder(
-    private val paymentRepository: PaymentRepository
+class PaymentCreateRecorder(
+    private val paymentRepository: PaymentRepository,
+    private val paymentHistoryCreator: PaymentHistoryCreator
 ) {
     @Transactional
     fun create(command: Command): Response {
@@ -24,6 +25,8 @@ class PaymentRecorder(
                 serviceKey = command.serviceKey
             )
         )
+
+        paymentHistoryCreator.create(payment)
 
         return Response(payment.id!!)
     }

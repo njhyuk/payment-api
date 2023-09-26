@@ -8,10 +8,11 @@ import javax.persistence.Table
 
 @Table
 @Entity
-data class Payment(
+data class PaymentHistory(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
+    val paymentId: Long,
     val userId: String,
     val cardId: Long,
     val transactionId: String,
@@ -19,11 +20,6 @@ data class Payment(
     val serviceKey: String,
     val productName: String,
     val amount: Long,
-    var cancelAmount: Long = 0,
+    val cancelAmount: Long = 0,
     var status: PaymentStatus
-) {
-    fun cancel() {
-        this.status = PaymentStatus.CANCEL
-        this.cancelAmount = amount
-    }
-}
+)

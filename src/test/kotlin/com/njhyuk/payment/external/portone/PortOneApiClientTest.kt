@@ -3,6 +3,7 @@ package com.njhyuk.payment.external.portone
 import com.njhyuk.payment.TesterCardConfig
 import com.njhyuk.payment.external.portone.dto.BillingKeyRequest
 import com.njhyuk.payment.external.portone.dto.GetTokenRequest
+import com.njhyuk.payment.external.portone.dto.PaymentCancelRequest
 import com.njhyuk.payment.external.portone.dto.PaymentRequest
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.comparables.shouldBeGreaterThan
@@ -93,6 +94,49 @@ class PortOneApiClientTest(
                 )
 
                 data.code shouldBe 0
+            }
+        }
+    }
+
+    describe("paymentCancel") {
+        context("결제 취소 데이터가 정상이라면") {
+            it("200 OK. 결제취소를 실행한다.") {
+                val token = portOneApiClient.getToken(
+                    GetTokenRequest(
+                        impKey = portOneConfig.impKey,
+                        impSecret = portOneConfig.impSecret
+                    )
+                )
+
+                val data = portOneApiClient.billingKey(
+                    authorization = token.response.accessToken,
+                    customerUid = UUID.randomUUID().toString(),
+                    request = BillingKeyRequest(
+                        cardNumber = testerCardConfig.cardNo,
+                        expiry = testerCardConfig.expiry,
+                        birth = testerCardConfig.birth,
+                        pwd2Digit = testerCardConfig.password
+                    )
+                )
+
+                val payment = portOneApiClient.payment(
+                    authorization = token.response.accessToken,
+                    request = PaymentRequest(
+                        customerUid = data.response.customerUid,
+                        merchantUid = portOneConfig.storeId,
+                        amount = 100,
+                        name = "아이폰 15 프로"
+                    )
+                )
+
+                val cancel = portOneApiClient.cancelPayment(
+                    authorization = token.response.accessToken,
+                    request = PaymentCancelRequest(
+                        impUid = payment.response.impUid,
+                    )
+                )
+
+                cancel.code shouldBe 0
             }
         }
     }

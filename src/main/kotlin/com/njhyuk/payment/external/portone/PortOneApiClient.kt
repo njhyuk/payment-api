@@ -4,6 +4,7 @@ import com.njhyuk.payment.external.portone.dto.BillingKeyRequest
 import com.njhyuk.payment.external.portone.dto.BillingKeyResponse
 import com.njhyuk.payment.external.portone.dto.GetTokenRequest
 import com.njhyuk.payment.external.portone.dto.GetTokenResponse
+import com.njhyuk.payment.external.portone.dto.PaymentCancelRequest
 import com.njhyuk.payment.external.portone.dto.PaymentRequest
 import com.njhyuk.payment.external.portone.dto.PaymentResponse
 import com.njhyuk.payment.external.portone.dto.PortOneApiResponse
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
-
-private val logger = KotlinLogging.logger {}
 
 @FeignClient(
     name = "portone",
@@ -37,5 +36,11 @@ interface PortOneApiClient {
     fun payment(
         @RequestHeader(value = "Authorization") authorization: String,
         @RequestBody request: PaymentRequest
+    ): PortOneApiResponse<PaymentResponse>
+
+    @PostMapping("/payments/cancel")
+    fun cancelPayment(
+        @RequestHeader(value = "Authorization") authorization: String,
+        @RequestBody request: PaymentCancelRequest
     ): PortOneApiResponse<PaymentResponse>
 }

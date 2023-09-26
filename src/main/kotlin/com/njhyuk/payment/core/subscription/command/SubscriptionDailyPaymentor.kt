@@ -3,6 +3,7 @@ package com.njhyuk.payment.core.subscription.command
 import com.njhyuk.payment.core.card.domain.CardRepository
 import com.njhyuk.payment.core.payment.command.SinglePaymentor
 import com.njhyuk.payment.core.subscription.domain.SubscriptionRepository
+import com.njhyuk.payment.core.subscription.domain.SubscriptionStatus
 import com.njhyuk.payment.core.subscription.exception.SubscriptionNotFoundException
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -14,12 +15,10 @@ class SubscriptionDailyPaymentor(
     private val singlePaymentor: SinglePaymentor
 ) {
     fun payment(paymentDate: LocalDate) {
-        subscriptionRepository.findByPaymentDate(paymentDate)
+        subscriptionRepository.findByPaymentDateAndStatus(paymentDate, SubscriptionStatus.ACTIVE)
             .forEach {
-                val card = cardRepository.findByIdAndUserId(
-                    id = it.cardId,
-                    userId = it.userId
-                ) ?: throw SubscriptionNotFoundException()
+                val card = cardRepository.findByIdAndUserId(it.cardId, it.userId)
+                    ?: throw SubscriptionNotFoundException()
 
                 singlePaymentor.payment(
                     SinglePaymentor.Command(

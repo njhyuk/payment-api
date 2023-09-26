@@ -6,5 +6,5 @@ import java.time.LocalDate
 interface SubscriptionRepository : JpaRepository<Subscription, Long> {
     fun findByUserId(userId: String): Subscription?
 
-    fun findByPaymentDate(paymentDate: LocalDate): List<Subscription>
+    fun findByPaymentDateAndStatus(paymentDate: LocalDate, status: SubscriptionStatus): List<Subscription>
 }

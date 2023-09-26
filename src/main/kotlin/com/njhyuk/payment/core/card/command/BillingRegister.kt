@@ -24,7 +24,7 @@ class BillingRegister(
             )
         )
 
-        val registered = portOneApiClient.billingKey(
+        val billing = portOneApiClient.billingKey(
             authorization = token.response.accessToken,
             customerUid = billingKey,
             request = BillingKeyRequest(
@@ -37,7 +37,7 @@ class BillingRegister(
 
         return Response(
             billingKey = billingKey,
-            cardName = registered.response.cardName
+            cardName = billing.response.cardName
         )
     }
 

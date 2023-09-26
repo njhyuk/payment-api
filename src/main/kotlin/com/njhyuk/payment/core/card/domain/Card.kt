@@ -15,7 +15,7 @@ data class Card(
     val id: Long? = null,
     val userId: String,
     val billingKey: String,
-    val cardIssuerId: String,
+    val maskedCardNo: String,
     var cardName: String,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime

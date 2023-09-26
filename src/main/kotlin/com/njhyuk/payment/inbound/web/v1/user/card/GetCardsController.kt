@@ -30,7 +30,7 @@ class GetCardsController(
                     cards.map {
                         CardItem(
                             id = it.id!!,
-                            cardIssuerId = it.cardIssuerId,
+                            maskedCardNo = it.maskedCardNo,
                             cardName = it.cardName,
                             createdAt = it.createdAt,
                             updatedAt = it.updatedAt
@@ -43,7 +43,7 @@ class GetCardsController(
 
     data class CardItem(
         val id: Long,
-        val cardIssuerId: String,
+        val maskedCardNo: String,
         var cardName: String,
         val createdAt: LocalDateTime,
         val updatedAt: LocalDateTime

@@ -12,11 +12,13 @@ class CardRegister(
 ) {
     @Transactional
     fun register(command: Command): Response {
+        val maskedCardNo = CardNoMasker.mask(command.cardNo)
+
         val card = cardRepository.save(
             Card(
                 userId = command.userId,
                 billingKey = command.billingKey,
-                cardIssuerId = command.cardNo,
+                maskedCardNo = maskedCardNo,
                 cardName = command.cardName,
                 createdAt = LocalDateTime.now(),
                 updatedAt = LocalDateTime.now()

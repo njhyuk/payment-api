@@ -153,3 +153,7 @@ open http://localhost:8080/docs/index.html
     * 테스트에 꼭 필요한 의존성만 주입하기 위해 통합테스트인 경우에만 `@SpringBootTest` 적용
     * Restdocs 테스트는`@WebMvcTest` 적용
     * DB 테스트 `@DataJdbcTest` 는 구현하지 않았음
+* 동시성 문제
+  * 취소는 미구현 하였으나, 취소시 결제 테이블이 업데이트 되기 때문에 동시성 문제 발생 위험이 있어, 결제 변경시 비관적 락 `PaymentRepository.findByIdWithLock(id: Long)` 메소드를 사용하도록 함
+* 중복 결제 방지
+  * 중복 결제 방지를 위해 거래키 transaction_id 를 만들어 포트원에 전송함 (동일 거래번호로 결제시 오류 처리 확인)

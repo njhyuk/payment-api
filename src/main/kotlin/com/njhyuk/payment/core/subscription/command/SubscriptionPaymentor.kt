@@ -5,7 +5,6 @@ import com.njhyuk.payment.core.payment.command.PaymentCreator
 import com.njhyuk.payment.core.subscription.domain.SubscriptionPayment
 import com.njhyuk.payment.core.subscription.domain.SubscriptionPaymentRepository
 import com.njhyuk.payment.core.subscription.domain.SubscriptionRepository
-import com.njhyuk.payment.core.subscription.exception.SubscriptionDuplicatedException
 import com.njhyuk.payment.core.subscription.exception.SubscriptionNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -28,6 +27,16 @@ class SubscriptionPaymentor(
         val card = cardRepository.findByIdAndUserId(subscription.cardId, subscription.userId)
             ?: throw SubscriptionNotFoundException()
 
+
+        val exists = subscriptionPaymentRepository.findBySubscriptionIdAndPaymentDate(
+            subscriptionId = subscriptionId,
+            paymentDate = paymentDate
+        )
+
+        if (exists !== null) {
+            return
+        }
+
         val subscriptionPayment = pending(subscription.id!!, paymentDate)
 
         runCatching {
@@ -38,7 +47,7 @@ class SubscriptionPaymentor(
                     amount = subscription.amount,
                     productName = SUBSCRIPTION_PAYMENT_NAME,
                     serviceKey = subscription.serviceKey,
-                    serviceTransactionId = subscription.serviceTransactionId
+                    serviceTransactionId = subscriptionPayment.id.toString()
                 )
             )
 
@@ -49,13 +58,6 @@ class SubscriptionPaymentor(
     }
 
     private fun pending(subscriptionId: Long, paymentDate: LocalDate): SubscriptionPayment {
-        subscriptionPaymentRepository.findBySubscriptionIdAndPaymentDate(
-            subscriptionId = subscriptionId,
-            paymentDate = paymentDate
-        )?.also {
-            throw SubscriptionDuplicatedException()
-        }
-
         return subscriptionPaymentRepository.save(
             SubscriptionPayment(
                 subscriptionId = subscriptionId,

@@ -42,7 +42,7 @@ class RegisterCardControllerTest(
     describe("카드 등록 API") {
         context("카드 등록 데이터가 정상이라면") {
             it("200 OK. 카드를 등록한다.") {
-                val userId = "010-0000-0000"
+                val userId = "010-1234-5678"
                 val billingKey = UUID.randomUUID().toString()
 
                 given(

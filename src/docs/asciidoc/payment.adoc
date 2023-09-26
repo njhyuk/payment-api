@@ -1,0 +1,5 @@
+== 결제
+
+=== 결제 API
+
+operation::v1/user/payment_register[snippets='http-request,request-fields,request-headers,http-response,response-fields']

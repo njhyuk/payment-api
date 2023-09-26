@@ -20,7 +20,7 @@ class SubscriptionRegister(
                 serviceKey = command.serviceKey,
                 serviceTransactionId = command.serviceTransactionId,
                 createdAt = LocalDateTime.now(),
-                updatedAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
             )
         )
 

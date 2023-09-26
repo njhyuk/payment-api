@@ -11,7 +11,7 @@ Spring Boot 2.7.16
 ## 프로그램 빌드 및 실행
 
 ```sh
-# yml 복사 후 포트원 상점키 등 입력 필요
+# 실결제 테스트시 - yml 복사 후 포트원 API키 변경 필요
 cp src/main/resources/application.yml.sample src/main/resources/application.yml
 ```
 
@@ -27,6 +27,8 @@ java -jar build/libs/payment-0.0.1-SNAPSHOT.jar
 # RestDocs
 open http://localhost:8080/docs/index.html
 ```
+
+![img.png](restdocsSample.png)
 
 ## DB 모델링
 
@@ -146,12 +148,13 @@ open http://localhost:8080/docs/index.html
         * 너무 느린응답인 경우 fallback 으로 결제 취소 API 실행 구현이 필요할 수 있음 (미구현)
 * 프로젝트 배경상 기존서비스가 존재함, 신규 결제 서비스 오픈시 롤백 플랜은 어떻게 구성할 것인가?
     * 듀얼라이팅 전략이 필요할 수 있음 (미구현)
-      * 신규 서비스 결제 -> 이벤트 큐 -> 각 레거시 서비스별 결제 테이블 형태에 맞게 insert
+        * 신규 서비스 결제 -> 이벤트 큐 -> 각 레거시 서비스별 결제 테이블 형태에 맞게 insert
+* 통합테스트 분리
+    * 테스트에 꼭 필요한 의존성만 주입하기 위해 통합테스트인 경우에만 `@SpringBootTest` 적용
+    * Restdocs 테스트는`@WebMvcTest` 적용
+    * DB 테스트 `@DataJdbcTest` 는 구현하지 않았음
 
 ## 미구현한 부분
 
 * 카드번호 등 유효성 검사
     * 컨트롤러에서 카드번호, 비밀번호등 적절한 유효성 로직을 추가해야함
-* 통합테스트 분리
-    * 테스트에 꼭 필요한 의존성만 주입하기 위해 단위별로 `@SpringBootTest` `@DataJdbcTest` `@WebMvcTest` 를 분리해야함
-

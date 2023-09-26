@@ -1,44 +1,55 @@
 package com.njhyuk.payment.core.payment.command
 
-import com.njhyuk.payment.TesterCardConfig
-import com.njhyuk.payment.core.card.command.BillingRegister
-import com.njhyuk.payment.core.card.command.CardRegister
 import com.njhyuk.payment.core.payment.command.PaymentCreator.Command
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
+import org.mockito.kotlin.given
+import org.mockito.kotlin.mock
 
-@SpringBootTest
-@ActiveProfiles("local", "test")
-@EnableConfigurationProperties(TesterCardConfig::class)
 class PaymentCreatorTest(
-    private val cardRegister: CardRegister,
-    private val billingRegister: BillingRegister,
-    private val testerCardConfig: TesterCardConfig,
-    private val paymentCreator: PaymentCreator
+    private val paymentExecutor: PaymentCreateExecutor = mock(),
+    private val paymentRecorder: PaymentCreateRecorder = mock(),
+    private val transactionIdGenerator: TransactionIdGenerator = TransactionIdGenerator(),
+    private val paymentCreator: PaymentCreator = PaymentCreator(
+        paymentExecutor,
+        paymentRecorder,
+        transactionIdGenerator
+    )
 ) : DescribeSpec({
     describe("payment 메서드는") {
         it("단건 결제를 처리한다") {
-            val userId = "010-1234-5678"
-
-            val billing = billingRegister.register(
-                command = BillingRegister.Command(
-                    userId = userId,
-                    cardNo = testerCardConfig.cardNo,
-                    expiry = testerCardConfig.expiry,
-                    password = testerCardConfig.password,
-                    birth = testerCardConfig.birth
+            given(
+                paymentExecutor.payment(
+                    PaymentCreateExecutor.Command(
+                        cardId = 1,
+                        transactionId = "COMMERCE_4354665654",
+                        userId = "010-0000-0000",
+                        amount = 100,
+                        productName = "반바지"
+                    )
+                )
+            ).willReturn(
+                PaymentCreateExecutor.Response(
+                    partnerPaymentId = "1111133",
+                    amount = 100
                 )
             )
 
-            val card = cardRegister.register(
-                CardRegister.Command(
-                    userId = userId,
-                    cardNo = testerCardConfig.cardNo,
-                    billingKey = billing.billingKey,
-                    cardName = billing.cardName
+            given(
+                paymentRecorder.record(
+                    PaymentCreateRecorder.Command(
+                        cardId = 1,
+                        serviceKey = "COMMERCE",
+                        transactionId = "COMMERCE_4354665654",
+                        partnerPaymentId = "1111133",
+                        userId = "010-0000-0000",
+                        amount = 100,
+                        productName = "반바지"
+                    )
+                )
+            ).willReturn(
+                PaymentCreateRecorder.Response(
+                    paymentId = 1
                 )
             )
 
@@ -46,8 +57,8 @@ class PaymentCreatorTest(
                 Command(
                     serviceKey = "COMMERCE",
                     serviceTransactionId = "4354665654",
-                    cardId = card.cardId,
-                    userId = userId,
+                    userId = "010-0000-0000",
+                    cardId = 1,
                     amount = 100,
                     productName = "반바지"
                 )

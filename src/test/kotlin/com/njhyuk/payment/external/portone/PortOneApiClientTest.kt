@@ -5,6 +5,7 @@ import com.njhyuk.payment.external.portone.dto.BillingKeyRequest
 import com.njhyuk.payment.external.portone.dto.GetTokenRequest
 import com.njhyuk.payment.external.portone.dto.PaymentCancelRequest
 import com.njhyuk.payment.external.portone.dto.PaymentRequest
+import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import java.util.UUID
 
+@Ignored("실결제가 되는 테스트이기 때문에 비활성화")
 @SpringBootTest
 @ActiveProfiles("local", "test")
 @EnableConfigurationProperties(PortOneConfig::class, TesterCardConfig::class)

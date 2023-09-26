@@ -1,9 +1,9 @@
 package com.njhyuk.payment.outbound.event
 
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class MockEventPublisher(
     private val eventPublisher: ApplicationEventPublisher
 ) : EventPublisher {

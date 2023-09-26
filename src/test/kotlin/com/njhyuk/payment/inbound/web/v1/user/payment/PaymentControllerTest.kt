@@ -1,69 +1,62 @@
 package com.njhyuk.payment.inbound.web.v1.user.payment
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.njhyuk.payment.TesterCardConfig
-import com.njhyuk.payment.core.card.command.BillingRegister
-import com.njhyuk.payment.core.card.command.CardRegister
+import com.njhyuk.payment.core.payment.command.PaymentCreator
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
 import com.njhyuk.payment.restdoc.RestDocsUtil
 import io.kotest.core.spec.style.DescribeSpec
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.mockito.kotlin.given
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.restdocs.headers.HeaderDocumentation
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.payload.PayloadDocumentation
-import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import java.util.UUID
 
-@SpringBootTest
-@ActiveProfiles("local", "test")
+@WebMvcTest(PaymentController::class)
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @Import(RestDocsConfiguration::class)
-@EnableConfigurationProperties(TesterCardConfig::class)
 class PaymentControllerTest(
     private val objectMapper: ObjectMapper,
     private val mockMvc: MockMvc,
-    private val cardRegister: CardRegister,
-    private val billingRegister: BillingRegister,
-    private val testerCardConfig: TesterCardConfig
+    @MockBean
+    private var paymentCreator: PaymentCreator
 ) : DescribeSpec({
     describe("단건 결제 API") {
         val userId = "010-1234-5678"
 
-        val billing = billingRegister.register(
-            command = BillingRegister.Command(
-                userId = userId,
-                cardNo = testerCardConfig.cardNo,
-                expiry = testerCardConfig.expiry,
-                password = testerCardConfig.password,
-                birth = testerCardConfig.birth
+        given(
+            paymentCreator.create(
+                PaymentCreator.Command(
+                    serviceKey = "COMMERCE",
+                    serviceTransactionId = "4354665654",
+                    cardId = 1,
+                    userId = userId,
+                    amount = 100,
+                    productName = "반바지"
+                )
             )
-        )
-
-        val card = cardRegister.register(
-            CardRegister.Command(
-                userId = userId,
-                cardNo = testerCardConfig.cardNo,
-                billingKey = billing.billingKey,
-                cardName = billing.cardName
+        ).willReturn(
+            PaymentCreator.Response(
+                paymentId = 1,
+                transactionId = "COMMERCE_4354665654"
             )
         )
 
         context("단건 결제 데이터가 정상이라면") {
             it("200 OK. 정상 결제된다.") {
                 val requestBody = PaymentController.Request(
-                    serviceTransactionId = UUID.randomUUID().toString(),
-                    cardId = card.cardId,
-                    amount = 100,
                     serviceKey = "COMMERCE",
+                    serviceTransactionId = "4354665654",
+                    cardId = 1,
+                    amount = 100,
                     productName = "반바지"
                 )
 
@@ -78,6 +71,13 @@ class PaymentControllerTest(
                             "v1/user/payment_register",
                             HeaderDocumentation.requestHeaders(
                                 HeaderDocumentation.headerWithName("user-id").description("유저 식별자")
+                            ),
+                            PayloadDocumentation.requestFields(
+                                PayloadDocumentation.fieldWithPath("serviceKey").description("서비스키"),
+                                PayloadDocumentation.fieldWithPath("serviceTransactionId").description("서비스 거래키"),
+                                PayloadDocumentation.fieldWithPath("cardId").description("카드 ID"),
+                                PayloadDocumentation.fieldWithPath("amount").description("결제금액"),
+                                PayloadDocumentation.fieldWithPath("productName").description("제품명")
                             ),
                             PayloadDocumentation.responseFields(
                                 *RestDocsUtil.webResponse(),

@@ -1,0 +1,10 @@
+
+== 정기결제
+
+=== 정기결제 등록 API
+
+operation::v1/user/subscription_register[snippets='http-request,request-fields,request-headers,http-response,response-fields']
+
+=== 정기결제 취소 API
+
+operation::v1/user/subscription_cancel[snippets='http-request,request-fields,request-headers,http-response,response-fields']

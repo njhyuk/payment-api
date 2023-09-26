@@ -1,15 +1,17 @@
 package com.njhyuk.payment.inbound.web.v1.user.card
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.njhyuk.payment.TesterCardConfig
+import com.njhyuk.payment.core.card.command.BillingRegister
+import com.njhyuk.payment.core.card.command.CardRegister
 import com.njhyuk.payment.inbound.web.v1.user.card.RegisterCardController.Request
 import com.njhyuk.payment.restdoc.RestDocsConfiguration
 import com.njhyuk.payment.restdoc.RestDocsUtil.Companion.webResponse
 import io.kotest.core.spec.style.DescribeSpec
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.mockito.kotlin.given
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
@@ -18,34 +20,70 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
-import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.util.*
 
-@SpringBootTest
-@ActiveProfiles("local", "test")
+@WebMvcTest(RegisterCardController::class)
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @Import(RestDocsConfiguration::class)
-@EnableConfigurationProperties(TesterCardConfig::class)
 class RegisterCardControllerTest(
     private val objectMapper: ObjectMapper,
     private val mockMvc: MockMvc,
-    private val testerCardConfig: TesterCardConfig
+    @MockBean
+    private var billingRegister: BillingRegister,
+    @MockBean
+    private var cardRegister: CardRegister
 ) : DescribeSpec({
     describe("카드 등록 API") {
         context("카드 등록 데이터가 정상이라면") {
             it("200 OK. 카드를 등록한다.") {
+                val userId = "010-0000-0000"
+                val billingKey = UUID.randomUUID().toString()
+
+                given(
+                    billingRegister.register(
+                        BillingRegister.Command(
+                            userId = userId,
+                            cardNo = "0000-0000-0000-0000",
+                            expiry = "2020-01",
+                            password = "00",
+                            birth = "960101"
+                        )
+                    )
+                ).willReturn(
+                    BillingRegister.Response(
+                        billingKey = billingKey,
+                        cardName = "하나카드"
+                    )
+                )
+
+                given(
+                    cardRegister.register(
+                        CardRegister.Command(
+                            userId = userId,
+                            cardNo = "0000-0000-0000-0000",
+                            billingKey = billingKey,
+                            cardName = "하나카드"
+                        )
+                    )
+                ).willReturn(
+                    CardRegister.Response(
+                        cardId = 1
+                    )
+                )
+
                 val requestBody = Request(
-                    cardNo = testerCardConfig.cardNo,
-                    expiry = testerCardConfig.expiry,
-                    password = testerCardConfig.password,
-                    birth = testerCardConfig.birth
+                    cardNo = "0000-0000-0000-0000",
+                    expiry = "2020-01",
+                    password = "00",
+                    birth = "960101"
                 )
 
                 mockMvc.perform(
                     post("/v1/user/card")
-                        .header("user-id", "010-1234-5678")
+                        .header("user-id", userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestBody))
                 ).andExpect(status().isOk)

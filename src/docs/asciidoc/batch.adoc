@@ -1,0 +1,5 @@
+== 배치
+
+=== 정기결제 일배치 API
+
+operation::v1/batch/subscription_daily[snippets='http-request,http-response']

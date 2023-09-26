@@ -9,3 +9,6 @@
 
 
 include::card.adoc[]
+include::payment.adoc[]
+include::subscription.adoc[]
+include::batch.adoc[]

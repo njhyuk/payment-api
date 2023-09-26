@@ -4,3 +4,11 @@
 === 카드 등록 API
 
 operation::v1/user/card_register[snippets='http-request,request-headers,http-response,response-fields']
+
+=== 카드 수정 API
+
+operation::v1/user/card_edit[snippets='http-request,request-headers,http-response,response-fields']
+
+=== 카드 목록 조회 API
+
+operation::v1/user/card_list[snippets='http-request,request-headers,http-response,response-fields']

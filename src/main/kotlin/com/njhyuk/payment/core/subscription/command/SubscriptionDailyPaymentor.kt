@@ -13,7 +13,7 @@ class SubscriptionDailyPaymentor(
     private val eventPublisher: EventPublisher
 ) {
     fun payment(paymentDate: LocalDate) {
-        subscriptionRepository.findByPaymentDateAndStatus(paymentDate, SubscriptionStatus.ACTIVE)
+        subscriptionRepository.streamByPaymentDateAndStatus(paymentDate, SubscriptionStatus.ACTIVE)
             .forEach {
                 eventPublisher.publish(
                     SubscriptionPaymentEvent(

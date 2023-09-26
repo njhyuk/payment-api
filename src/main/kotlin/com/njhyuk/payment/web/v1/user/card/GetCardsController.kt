@@ -2,6 +2,7 @@ package com.njhyuk.payment.web.v1.user.card
 
 import com.njhyuk.payment.core.card.domain.Card
 import com.njhyuk.payment.core.card.query.GetUserCards
+import com.njhyuk.payment.web.WebResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
@@ -14,10 +15,10 @@ class GetCardsController(
     @GetMapping("/user/v1/card")
     fun getCards(
         @RequestHeader(name = "user-id") userId: String
-    ): Response {
+    ): WebResponse<Response> {
         val cards = getUserCards.getCards(userId)
 
-        return Response.from(cards)
+        return WebResponse.success(Response.from(cards))
     }
 
     data class Response(

@@ -2,6 +2,7 @@ package com.njhyuk.payment.web.v1.user.subscription
 
 import com.njhyuk.payment.core.subscription.command.SubscriptionRegister
 import com.njhyuk.payment.core.subscription.command.SubscriptionRegister.Command
+import com.njhyuk.payment.web.WebResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
@@ -15,10 +16,10 @@ class RegisterSubscriptionController(
     fun register(
         @RequestHeader(name = "user-id") userId: String,
         @RequestBody request: Command
-    ): Response {
+    ): WebResponse<Response> {
         val subscription = subscriptionRegister.register(request)
 
-        return Response(subscription.subscriptionId)
+        return WebResponse.success(Response(subscription.subscriptionId))
     }
 
     data class Response(

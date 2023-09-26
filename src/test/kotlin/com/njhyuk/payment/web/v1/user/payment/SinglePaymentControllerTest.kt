@@ -51,7 +51,7 @@ class SinglePaymentControllerTest(
                                 HeaderDocumentation.headerWithName("user-id").description("유저 식별자")
                             ),
                             PayloadDocumentation.responseFields(
-                                PayloadDocumentation.fieldWithPath("paymentId").description("결제 ID")
+                                PayloadDocumentation.fieldWithPath("data.paymentId").description("결제 ID")
                             )
                         )
                     )

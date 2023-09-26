@@ -2,6 +2,7 @@ package com.njhyuk.payment.web.v1.user.card
 
 import com.njhyuk.payment.core.card.command.CardEditor
 import com.njhyuk.payment.core.card.command.CardEditor.Command
+import com.njhyuk.payment.web.WebResponse
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -17,7 +18,7 @@ class EditCardController(
         @RequestHeader(name = "user-id") userId: String,
         @PathVariable cardId: Long,
         @RequestBody request: Request
-    ): Response {
+    ): WebResponse<Response> {
         cardEditor.edit(
             Command(
                 cardId = cardId,
@@ -25,7 +26,7 @@ class EditCardController(
             )
         )
 
-        return Response(cardId)
+        return WebResponse.success(Response(cardId))
     }
 
     data class Request(

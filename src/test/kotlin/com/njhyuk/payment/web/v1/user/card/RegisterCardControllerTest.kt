@@ -53,7 +53,7 @@ class RegisterCardControllerTest(
                                 headerWithName("user-id").description("유저 식별자")
                             ),
                             responseFields(
-                                fieldWithPath("cardId").description("카드 ID")
+                                fieldWithPath("data.cardId").description("카드 ID")
                             )
                         )
                     )

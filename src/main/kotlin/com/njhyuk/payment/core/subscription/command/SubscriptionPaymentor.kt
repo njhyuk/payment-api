@@ -27,7 +27,6 @@ class SubscriptionPaymentor(
         val card = cardRepository.findByIdAndUserId(subscription.cardId, subscription.userId)
             ?: throw SubscriptionNotFoundException()
 
-
         val exists = subscriptionPaymentRepository.findBySubscriptionIdAndPaymentDate(
             subscriptionId = subscriptionId,
             paymentDate = paymentDate

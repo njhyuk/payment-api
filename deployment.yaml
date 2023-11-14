@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: hello-springboot
+    labels:
+        app: hello-springboot
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: hello-springboot
+    template:
+        metadata:
+            labels:
+                app: hello-springboot
+        spec:
+            containers:
+                -   name: hello-springboot
+                    image: njh2239/hello-springboot:1.0
+                    ports:
+                        -   containerPort: 8080

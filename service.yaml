@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: hello-springboot
+    namespace: default
+    labels:
+        app: hello-springboot
+spec:
+    selector:
+        app: hello-springboot
+    ports:
+        -   protocol: TCP
+            port: 8080
+            nodePort: 30090
+    type: NodePort
